@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高二→高三学习行动方案｜目标天津大学</title>
+<style>
+  :root{
+    --navy:#0b3d6b; --blue:#1a6fb5; --bg:#f4f7fb; --card:#ffffff; --text:#1c2733;
+    --muted:#5d6b7a; --line:#dde6ef; --gold:#c9a227; --green:#2e7d32; --orange:#e65100;
+    --red:#c62828; --light:#e8f1fa;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; font-size:16px;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 16px;}
+  nav{position:sticky; top:0; z-index:50; background:rgba(11,61,107,.96); backdrop-filter:blur(6px); box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  nav .wrap{display:flex; align-items:center; gap:4px; overflow-x:auto; padding:10px 16px;}
+  nav a{color:#dbe9f7; text-decoration:none; font-size:14px; white-space:nowrap; padding:6px 10px; border-radius:8px;}
+  nav a:hover{background:rgba(255,255,255,.14); color:#fff;}
+  nav .logo{font-weight:700; color:#fff; font-size:15px; margin-right:8px; white-space:nowrap;}
+  .hero{background:linear-gradient(135deg,#0b3d6b 0%,#1a6fb5 70%,#2a86c8 100%); color:#fff; padding:44px 0 36px;}
+  .hero h1{font-size:30px; margin-bottom:8px;}
+  .hero .sub{color:#cfe3f5; font-size:15px; margin-bottom:22px;}
+  .hero-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
+  .hero-cell{background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:12px; padding:14px 16px;}
+  .hero-cell .num{font-size:26px; font-weight:800; color:#ffd76a;}
+  .hero-cell .lab{font-size:13px; color:#dcecfb; margin-top:2px;}
+  .btn{display:inline-block; background:var(--blue); color:#fff; border:none; border-radius:8px; padding:8px 16px; font-size:14px; cursor:pointer; text-decoration:none;}
+  .btn:hover{background:#145a96;}
+  .btn.gold{background:var(--gold); color:#3a2c00;}
+  .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,.6); color:#fff;}
+  .btn.sm{padding:5px 10px; font-size:13px;}
+  section{padding:34px 0 10px;}
+  h2{font-size:23px; color:var(--navy); margin-bottom:6px; display:flex; align-items:center; gap:10px;}
+  h2 .tag{font-size:12px; background:var(--light); color:var(--blue); border-radius:6px; padding:2px 8px; font-weight:400;}
+  .lead{color:var(--muted); font-size:14px; margin-bottom:16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px; box-shadow:0 1px 4px rgba(16,42,67,.06);}
+  .card h3{font-size:17px; color:var(--navy); margin-bottom:10px;}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px;}
+  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px;}
+  table{width:100%; border-collapse:collapse; font-size:14px; margin:8px 0;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left;}
+  th{background:var(--light); color:var(--navy); font-weight:600;}
+  td.num,th.num{text-align:right;}
+  tr:nth-child(even) td{background:#f8fafd;}
+  .total td{font-weight:700; background:#eef4fb !important;}
+  .up{color:var(--green); font-weight:700;}
+  ul,ol{padding-left:22px;}
+  li{margin:5px 0;}
+  .badge{display:inline-block; border-radius:6px; padding:2px 10px; font-size:12px; font-weight:700; color:#fff; margin-right:6px;}
+  .p1{background:var(--red);} .p2{background:var(--blue);} .p3{background:#7a8a99;}
+  .rank{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
+  .rank .item{background:var(--light); border:1px solid var(--line); border-radius:10px; padding:8px 14px; font-size:14px;}
+  .rank .item b{color:var(--navy);}
+  .note{background:#fff8e6; border:1px solid #f0e2b0; border-radius:10px; padding:10px 14px; font-size:13px; color:#6b5410; margin:10px 0;}
+  .ok{background:#eaf6ec; border-color:#bfe3c6; color:#1d5c26;}
+  .err{background:#fdeeee; border-color:#f0c4c4; color:#8b1f1f;}
+  .kb{color:var(--muted); font-size:14px;}
+  .link{color:var(--blue); text-decoration:none; word-break:break-all;}
+  .link:hover{text-decoration:underline;}
+  .src{font-size:12px; color:var(--muted);}
+  input[type=text],input[type=number],input[type=date],textarea,select{width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:14px; font-family:inherit;}
+  .form-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:10px 0;}
+  label{font-size:13px; color:var(--muted); display:block; margin-bottom:4px;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:10px 0;}
+  .pomo{position:fixed; right:16px; bottom:16px; z-index:60; width:250px; background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 6px 24px rgba(0,0,0,.18); overflow:hidden;}
+  .pomo .head{background:var(--navy); color:#fff; padding:10px 14px; font-size:14px; font-weight:700; cursor:pointer; display:flex; justify-content:space-between; align-items:center;}
+  .pomo .body{padding:14px;}
+  .pomo .time{font-size:40px; font-weight:800; text-align:center; color:var(--navy); font-variant-numeric:tabular-nums;}
+  .pomo .mode{text-align:center; font-size:13px; color:var(--muted); margin:2px 0 10px;}
+  .pomo .btns{display:flex; gap:8px; justify-content:center;}
+  .pomo .btns .btn{padding:6px 12px;}
+  .pomo .stat{text-align:center; font-size:12px; color:var(--muted); margin-top:10px;}
+  .pomo.collapsed .body{display:none;}
+  footer{background:var(--navy); color:#c9dcef; padding:30px 0 60px; margin-top:40px; font-size:13px;}
+  footer a{color:#9ec9f2;}
+  footer h4{color:#fff; margin:14px 0 6px;}
+  @media (max-width:640px){
+    .hero h1{font-size:23px;}
+    section{padding:24px 0 6px;}
+    .pomo{width:220px;}
+  }
+  @media print{
+    nav,.pomo,.no-print{display:none !important;}
+    body{background:#fff; font-size:12px;}
+    section{break-before:page;}
+    .card{box-shadow:none; border:1px solid #bbb;}
+    table{font-size:11px;}
+    a{color:#000; text-decoration:none;}
+    .hero{background:#fff; color:#000; padding:0 0 10px;}
+    .hero h1{color:#000;}
+    .hero .sub,.hero-cell .lab{color:#333;}
+    .hero-cell{background:#f5f5f5; border:1px solid #999;}
+    .hero-cell .num{color:#000;}
+    h2{color:#000;}
+  }
+</style>
+</head><body>
+<nav class="no-print"><div class="wrap">
+  <span class="logo">📚 学习行动方案</span>
+  <a href="#goal">目标拆解</a><a href="#subjects">分科策略</a><a href="#schedule">周时间表</a>
+  <a href="#memory">记忆系统</a><a href="#mindset">心态调整</a><a href="#review">复盘机制</a>
+  <a href="#pitfalls">避坑清单</a>
+</div></nav>
+
+<div class="hero"><div class="wrap">
+  <h1>高二→高三学习行动方案</h1>
+  <div class="sub">天津 · 物化生选科 · 目标：天津大学（2025 在津最低 651 分）· 基于已验证学习科学方法</div>
+  <div class="hero-grid">
+    <div class="hero-cell"><div class="num">465</div><div class="lab">当前总分（六科）</div></div>
+    <div class="hero-cell"><div class="num">660</div><div class="lab">高考目标总分</div></div>
+    <div class="hero-cell"><div class="num">+195</div><div class="lab">总提分空间</div></div>
+    <div class="hero-cell"><div class="num">539→608→660</div><div class="lab">高二期末→一模→高考</div></div>
+    <div class="hero-cell"><div class="num">18→24→30h</div><div class="lab">每周投入三阶段加码</div></div>
+  </div>
+  <div class="toolbar" style="margin-top:18px">
+    <button class="btn gold" onclick="window.print()">🖨️ 打印成 A4 张贴</button>
+    <a class="btn ghost" href="#memory">先看今天要做什么</a>
+  </div>
+</div></div>
+
+<section id="goal"><div class="wrap">
+  <h2>一、目标拆解 <span class="tag">差距 195 分 → 拆到每一科</span></h2>
+  <p class="lead">原则：不看总分焦虑，只看"每科差多少、用哪个方法补"。物化生按天津等级赋分理解（满分 100），表内分数即赋分后分数。</p>
+
+  <div class="card">
+    <h3>各科目标线（三阶段）</h3>
+    <table>
+      <tr><th>科目</th><th class="num">现在</th><th class="num">高二期末 539</th><th class="num">高三一模 608</th><th class="num">高考目标 660</th><th class="num">总提分</th></tr>
+      <tr><td>语文</td><td class="num">96</td><td class="num">103</td><td class="num">112</td><td class="num">119</td><td class="num up">+23</td></tr>
+      <tr><td>数学</td><td class="num">122</td><td class="num">127</td><td class="num">132</td><td class="num">136</td><td class="num up">+14</td></tr>
+      <tr><td>英语</td><td class="num">69</td><td class="num">95</td><td class="num">118</td><td class="num">132</td><td class="num up">+63</td></tr>
+      <tr><td>物理</td><td class="num">61</td><td class="num">72</td><td class="num">82</td><td class="num">91</td><td class="num up">+30</td></tr>
+      <tr><td>化学</td><td class="num">68.5</td><td class="num">76</td><td class="num">84</td><td class="num">90</td><td class="num up">+21.5</td></tr>
+      <tr><td>生物</td><td class="num">48.5</td><td class="num">66</td><td class="num">80</td><td class="num">92</td><td class="num up">+43.5</td></tr>
+      <tr class="total"><td>总分</td><td class="num">465</td><td class="num">539</td><td class="num">608</td><td class="num">660</td><td class="num">+195</td></tr>
+    </table>
+    <div class="note">✅ 三张表都已加总核对：539 / 608 / 660。每次月考后填"复盘机制"里的雷达图，对照这张表看进度。</div>
+  </div>
+
+  <div class="card">
+    <h3>提分性价比排序（先做高性价比的）</h3>
+    <div class="rank">
+      <div class="item"><b>1. 生物 +43.5</b> — 48.5 分接近赋分底部（天津 E 档 40 分起），纯记忆科目，背了就有分，见效最快</div>
+      <div class="item"><b>2. 英语 +63</b> — 69 分说明词汇地基缺失，方法最明确（背词+精读），空间全科最大，还有 3 月首考两次机会</div>
+      <div class="item"><b>3. 物理 +30</b> — 卡在"公式记不住"，改成"会推导+模型归类"就能涨</div>
+      <div class="item"><b>4. 化学 +21.5</b> — 知识点太碎，靠思维导图一条主线一条主线地补</div>
+      <div class="item"><b>5. 语文 +23</b> — 空间不小但涨得慢，必须从高二开始每天 15 分钟</div>
+      <div class="item"><b>6. 数学 +14</b> — 122 已接近能力区，以保稳为主，重点解决计算耗时</div>
+    </div>
+    <p class="kb">时间分配结论：生物、英语每天雷打不动；物理、化学吃周末整块时间；语文每天小剂量长期积累；数学保住现有节奏。</p>
+  </div>
+
+  <div class="card">
+    <h3>分阶段节奏（18h → 24h → 30h）</h3>
+    <ul>
+      <li><b>第 1-4 周（每周 18 小时）</b>：只做三件事——英语单词、生物背诵、周末两科整块训练。目标是把"每天打卡"变成习惯，不追求强度。</li>
+      <li><b>第 5-8 周（每周 24 小时）</b>：周末加物理、数学整块时间，生物英语节奏保持不变。</li>
+      <li><b>第 9 周起（每周 30 小时）</b>：六科全开，接近高三强度，周末 25 小时按模板执行。</li>
+      <li><b>节点检查</b>：高二期末 ≈ 539 → 高三一模 ≈ 608 → 高考 660。单次月考差 15 分以上不用慌，连续两次差 15 分才需要调时间分配。</li>
+    </ul>
+  </div>
+</div></section><section id="subjects"><div class="wrap">
+  <h2>二、分科策略 <span class="tag">每科：方法 + 每日动作 + 真实资源</span></h2>
+  <p class="lead">以下 B 站资源均为真实可查的公开免费课，在 B 站搜索 UP 主名字即可找到。看视频课的规则：<b>每看 30 分钟，必须完成笔记 + 3 道题 + 给自己讲一遍</b>，否则等于没看。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3><span class="badge p1">P1 每天必做</span>英语（69 → 132）</h3>
+      <p><b>① 最适合的方法</b></p>
+      <ul>
+        <li><b>艾宾浩斯背词</b>：每天新学 30 个，按下方"记忆系统"复习表打卡；12 小时节点=睡前 3 分钟过一遍当天单词。</li>
+        <li><b>提取练习（合书自测）</b>：看中文写英文、听发音写词，测不出来的就是没记住，绝不"看着眼熟就算会"。</li>
+        <li><b>费曼讲长难句</b>：每篇精读挑 1 个长难句，合上文章用 3 句话讲清楚"这句话什么意思、为什么选这个答案"。</li>
+      </ul>
+      <p><b>② 每天的动作（20 分钟单词 + 10 分钟精读）</b></p>
+      <ul>
+        <li>单词 20 分钟＝新词 15 分钟 + 按复习表自测 5 分钟；精读 10 分钟＝真题阅读 1 段，查词、翻译长难句。</li>
+        <li>周五追加 10 分钟精读；周日 2 小时＝精读 2 篇 + 语法专题。</li>
+      </ul>
+      <p><b>③ 真实资源</b></p>
+      <ul>
+        <li><a class="link" href="https://space.bilibili.com/388576777" target="_blank">英语的平行世界（B站）</a> — 词汇线从 0 到 5000 词，语法线 G001-G160 系统课，适合 69 分起步。</li>
+        <li><a class="link" href="https://space.bilibili.com/483162496" target="_blank">英语兔（B站）</a> — 语法精讲合集，用动画把时态、从句讲清楚，周日专题用。</li>
+      </ul>
+      <p class="kb"><b>④ 优先级 P1 的理由</b>：提分空间 63 分全科最大；天津英语一年两考，高三下学期 3 月首考是第一个"收割点"，高二一年足够把词汇和精读能力拉起来。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge p1">P1 每天必做</span>生物（48.5 → 92）</h3>
+      <p><b>① 最适合的方法</b></p>
+      <ul>
+        <li><b>回归教材</b>：高考生物答案几乎都出自教材原文，背诵一律以教材原话为准，不背教辅改写版。</li>
+        <li><b>填空默写（提取练习）</b>：把概念、流程图挖空，合书默写，默不出来的就是没记住。</li>
+        <li><b>康奈尔笔记</b>：每章一页，分"线索/笔记/总结"三栏；代谢、遗传、调节、生态最后各画一张总思维导图。</li>
+      </ul>
+      <p><b>② 每天的动作（15 分钟）</b></p>
+      <ul>
+        <li>背 1 张概念卡（新）+ 默写复习卡（按艾宾浩斯节点）；周末 1.5 小时＝章节导图 + 教材挖空自测。</li>
+      </ul>
+      <p><b>③ 真实资源</b></p>
+      <ul>
+        <li><a class="link" href="https://space.bilibili.com/519546088" target="_blank">汉水丑生侯伟（B站）</a> — 在职教师本人，教材逐节讲解 + 知识网络 + 填空默写配套，覆盖必修与选择性必修。</li>
+        <li>配套教辅：《高中生物基础知识》（汉水丑生主编风格，知识网络 + 填空默写一体）。</li>
+      </ul>
+      <p class="kb"><b>④ 优先级 P1 的理由</b>：48.5 分接近赋分底部（天津 E 档 40 分起），纯记忆科目"背了就有分"，是全科性价比第一。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge p2">P2 周末整块</span>物理（61 → 91）</h3>
+      <p><b>① 最适合的方法</b></p>
+      <ul>
+        <li><b>公式卡片</b>：每个公式一张卡，写四样——公式、适用条件、推导过程、1 道例题；合上卡片自己推一遍（费曼法）。</li>
+        <li><b>错题模型归类</b>：错题不按"第几题"分类，按"模型"分类（受力分析/能量/动量/电场/磁场……），每个模型总结通用解题步骤。</li>
+        <li><b>刻意练习</b>：只练当前章节 + 重做错题，不整卷乱刷；每道错题重做对为止。</li>
+      </ul>
+      <p><b>② 每天的动作</b></p>
+      <ul>
+        <li>周二、周四各 20 分钟：推 2 张公式卡 + 重做 1 道错题；周末 2 小时：看黄夫人专题 1 讲 + 做配套题（限时）。</li>
+      </ul>
+      <p><b>③ 真实资源</b></p>
+      <ul>
+        <li><a class="link" href="https://space.bilibili.com/23630128" target="_blank">黄夫人（B站）</a> — 高中物理一轮复习合集（运动学→电磁学），百大 UP 主，课时按知识模块组织。</li>
+        <li><a class="link" href="https://search.bilibili.com/all?keyword=%E6%9D%8E%E6%B0%B8%E4%B9%90%E8%80%81%E5%B8%88%E9%AB%98%E4%B8%AD%E7%89%A9%E7%90%86" target="_blank">李永乐老师（B站）</a> — 概念与模型讲解，适合某个模型想不通时单独看。</li>
+      </ul>
+      <p class="kb"><b>④ 优先级 P2</b>：公式会推 + 模型会认，+30 分可期；但需要整块时间，放在周末。</p>
+    </div>    <div class="card">
+      <h3><span class="badge p2">P2 周末整块</span>化学（68.5 → 90）</h3>
+      <p><b>① 最适合的方法</b></p>
+      <ul>
+        <li><b>思维导图知识网络</b>：元素化合物、化学反应原理、化学实验三条主线各一张总图，每周补一节；知识点多不可怕，可怕的是散装。</li>
+        <li><b>康奈尔笔记</b>：每节一页（线索/笔记/总结），总结栏写"这节高考怎么考"。</li>
+        <li><b>错题三问</b>：每道错题回答三句——为什么错 / 考哪个知识点 / 下次怎么防。</li>
+      </ul>
+      <p><b>② 每天的动作</b></p>
+      <ul>
+        <li>周三 15 分钟：背 1 张知识卡（反应方程式/实验现象）；周末 2 小时：主线导图 + 10 道真题（限时）。</li>
+      </ul>
+      <p><b>③ 真实资源</b></p>
+      <ul>
+        <li><a class="link" href="https://space.bilibili.com/416601949" target="_blank">化学超人（B站）</a> — 高考化学全题型分类一轮课程、必修同步课，190 万粉，跟着主线走即可。</li>
+      </ul>
+      <p class="kb"><b>④ 优先级 P2</b>：知识点碎片化是主因，一张导图一条主线地补，+21.5 分。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge p2">P2 周末整块</span>数学（122 → 136）</h3>
+      <p><b>① 最适合的方法</b></p>
+      <ul>
+        <li><b>限时计算刻意练习</b>：每天 8 道选填限时 20 分钟，记录用时，每周压缩 1-2 分钟——专治"计算费时间"。</li>
+        <li><b>计算错题单独归类</b>：把"算错"和"不会"分开统计；算错的题重算 3 遍，直到一次算对。</li>
+        <li><b>套卷限时</b>：选填 40 分钟、大题按题型卡时间，练"会做的题不丢分"。</li>
+      </ul>
+      <p><b>② 每天的动作</b></p>
+      <ul>
+        <li>周一、周四各 20 分钟：限时计算 + 错题重做；周末 3 小时：套卷（选填限时 + 2 道大题精练）。</li>
+      </ul>
+      <p><b>③ 真实资源</b></p>
+      <ul>
+        <li><a class="link" href="https://space.bilibili.com/14229967" target="_blank">一数（B站）</a> — 高中数学系统课与解题方法合集，覆盖高一到高三全部模块。</li>
+      </ul>
+      <p class="kb"><b>④ 优先级 P2</b>：122 已是相对强项，策略是"保住 + 提速"，难题不恋战，+14 分即可。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge p3">P3 每天小剂量</span>语文（96 → 119）</h3>
+      <p><b>① 最适合的方法</b></p>
+      <ul>
+        <li><b>文言文精读</b>：每天 1 篇（或 1 段），逐字翻译，不糊弄；每天积累 2 个实词进卡片，按艾宾浩斯复习。</li>
+        <li><b>阅读题型模板（康奈尔）</b>：每种题型（作用题/含义题/赏析题……）记一页答题框架，做题时按框架组织答案。</li>
+        <li><b>作文仿写</b>：每周仿写 1 篇高分结构，素材只从课本和新闻里积累，不背范文。</li>
+      </ul>
+      <p><b>② 每天的动作</b></p>
+      <ul>
+        <li>每天 15 分钟：文言文精读或实词复习；周末 1.5 小时：作文结构仿写 / 阅读题型专题。</li>
+      </ul>
+      <p><b>③ 真实资源</b></p>
+      <ul>
+        <li><a class="link" href="https://space.bilibili.com/485578465" target="_blank">国家玮-开明致学（B站）</a> — 作文审题三步法、阅读题型干货，北大中文系博士。</li>
+        <li><a class="link" href="https://search.bilibili.com/all?keyword=%E5%AD%A6%E8%BF%87%E7%9F%B3%E6%B2%B9%E7%9A%84%E8%AF%AD%E6%96%87%E8%80%81%E5%B8%88" target="_blank">学过石油的语文老师（B站）</a> — 文言文翻译、断句、词类活用专项，百大 UP 主。</li>
+      </ul>
+      <p class="kb"><b>④ 优先级 P3，但每天必须有 15 分钟</b>：语文是慢变量，高三再补来不及，现在开始每天 15 分钟，两年后就是 115+。</p>
+    </div>
+  </div>
+</div></section><section id="schedule"><div class="wrap">
+  <h2>三、周时间表 <span class="tag">番茄工作法：25 分钟专注 + 5 分钟休息</span></h2>
+  <p class="lead">周中每天固定 1 小时结构不变，周末按阶段加码。每 4 个番茄（约 2 小时）大休息 15-20 分钟；睡眠 ≥ 7.5 小时；周末每天至少 30 分钟运动或户外。</p>
+
+  <div class="card">
+    <h3>周中固定 60 分钟结构（周一至周五，每天 1 小时）</h3>
+    <table>
+      <tr><th>时段</th><th>内容</th><th>时长</th><th>番茄</th></tr>
+      <tr><td>第 1 段</td><td>英语：新词 15 分钟 + 复习自测 5 分钟（按记忆系统表）</td><td>20 分钟</td><td>1</td></tr>
+      <tr><td>第 2 段</td><td>生物：背 1 张概念卡 + 默写复习卡</td><td>15 分钟</td><td>1</td></tr>
+      <tr><td>第 3 段（轮换）</td><td>见下表</td><td>25 分钟</td><td>1</td></tr>
+    </table>
+    <table>
+      <tr><th>星期</th><th>轮换内容（25 分钟）</th></tr>
+      <tr><td>周一</td><td>数学：限时计算 8 道选填（20 分钟）+ 对答案记用时</td></tr>
+      <tr><td>周二</td><td>物理：推 2 张公式卡 + 重做 1 道错题</td></tr>
+      <tr><td>周三</td><td>化学：背 1 张知识卡 + 补 1 条思维导图分支</td></tr>
+      <tr><td>周四</td><td>数学：错题重做（计算错题单独归类，重算 3 遍）</td></tr>
+      <tr><td>周五</td><td>英语：精读 1 篇 + 本周打卡清账（漏掉的今天补）</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>阶段 1（第 1-4 周）：周末 13 小时 · 每周共 18 小时</h3>
+    <table>
+      <tr><th>时间段</th><th>内容</th><th>时长</th><th>番茄</th></tr>
+      <tr><td>周六上午</td><td>数学：限时选填 40 分钟 + 2 道大题精练</td><td>2h</td><td>4</td></tr>
+      <tr><td>周六下午</td><td>物理：黄夫人专题 1 讲 + 配套题</td><td>2h</td><td>4</td></tr>
+      <tr><td>周六晚上</td><td>化学：章节思维导图 + 10 道真题</td><td>2h</td><td>4</td></tr>
+      <tr><td>周六机动</td><td>补打卡 / 休息 / 运动</td><td>1h</td><td>—</td></tr>
+      <tr><td>周日上午</td><td>生物：章节导图 + 教材挖空默写</td><td>1.5h</td><td>3</td></tr>
+      <tr><td>周日下午</td><td>语文：作文结构仿写 / 阅读题型专题</td><td>1.5h</td><td>3</td></tr>
+      <tr><td>周日晚上</td><td>英语：精读 2 篇 + 语法专题（英语兔）</td><td>2h</td><td>4</td></tr>
+      <tr><td>周日复盘</td><td>五指标复盘 + 下周计划（见复盘机制）</td><td>0.5h</td><td>1</td></tr>
+      <tr><td>周日机动</td><td>休息</td><td>0.5h</td><td>—</td></tr>
+    </table>
+  </div>  <div class="card">
+    <h3>阶段 2（第 5-8 周）：周末 19 小时 · 每周共 24 小时</h3>
+    <table>
+      <tr><th>时间段</th><th>内容</th><th>时长</th><th>番茄</th></tr>
+      <tr><td>周六上午</td><td>数学：套卷限时 + 错题</td><td>3h</td><td>6</td></tr>
+      <tr><td>周六下午</td><td>物理：专题 2 讲 + 模型归类</td><td>3h</td><td>6</td></tr>
+      <tr><td>周六晚上</td><td>化学：主线导图 + 真题；英语：精读 1 篇</td><td>2h + 1h</td><td>4 + 2</td></tr>
+      <tr><td>周六机动</td><td>补打卡 / 休息 / 运动</td><td>1h</td><td>—</td></tr>
+      <tr><td>周日上午</td><td>生物：章节导图 + 默写；数学：限时计算</td><td>2h + 1h</td><td>4 + 2</td></tr>
+      <tr><td>周日下午</td><td>语文：作文 / 阅读专题；物理：公式卡总复习</td><td>1.5h + 1h</td><td>3 + 2</td></tr>
+      <tr><td>周日晚上</td><td>英语：精读 2 篇 + 语法专题</td><td>2.5h</td><td>5</td></tr>
+      <tr><td>周日复盘</td><td>五指标复盘 + 下周计划</td><td>0.5h</td><td>1</td></tr>
+      <tr><td>周日机动</td><td>休息</td><td>0.5h</td><td>—</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>阶段 3（第 9 周起）：周末 25 小时 · 每周共 30 小时</h3>
+    <table>
+      <tr><th>时间段</th><th>内容</th><th>时长</th><th>番茄</th></tr>
+      <tr><td>周六上午</td><td>数学：套卷限时 + 大题精练</td><td>3.5h</td><td>7</td></tr>
+      <tr><td>周六下午</td><td>物理：专题 + 模型归类 + 错题重做</td><td>3h</td><td>6</td></tr>
+      <tr><td>周六晚上</td><td>化学：主线导图 + 真题；生物：教材默写</td><td>2.5h + 2h</td><td>5 + 4</td></tr>
+      <tr><td>周六机动</td><td>补打卡 / 休息 / 运动</td><td>2h</td><td>—</td></tr>
+      <tr><td>周日上午</td><td>数学：限时计算；物理：公式卡总复习</td><td>1.5h + 1.5h</td><td>3 + 3</td></tr>
+      <tr><td>周日下午</td><td>化学：知识卡复习；生物：章节导图</td><td>1.5h + 1.5h</td><td>3 + 3</td></tr>
+      <tr><td>周日晚上</td><td>英语：精读 + 语法 / 作文；语文：作文仿写</td><td>3h + 1.5h</td><td>6 + 3</td></tr>
+      <tr><td>周日复盘</td><td>五指标复盘 + 下周计划</td><td>0.5h</td><td>1</td></tr>
+      <tr><td>周日机动</td><td>休息</td><td>1h</td><td>—</td></tr>
+    </table>
+    <div class="note">⏱️ 用右下角"番茄钟"：一个番茄 25 分钟，响铃后休息 5 分钟；每 4 个番茄大休息 15-20 分钟。每天番茄目标：阶段 1 ≥ 40 个 / 阶段 2 ≥ 52 个 / 阶段 3 ≥ 65 个（按每周学时折算）。</div>
+  </div>
+</div></section><section id="memory"><div class="wrap">
+  <h2>四、记忆系统 <span class="tag">艾宾浩斯遗忘曲线：8 个复习节点</span></h2>
+  <p class="lead">复习节点：<b>5 分钟 → 30 分钟 → 12 小时 → 1 天 → 2 天 → 4 天 → 7 天 → 15 天</b>。所有背诵内容（英语单词、生物概念、语文实词、化学卡片）共用这套节点。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>各类内容怎么背（每日配比）</h3>
+      <ul>
+        <li><b>英语单词</b>：每天新学 30 个。15 天滚动 = 450 个新词，每月约 900 个，3500 核心词约 4 个月过一轮，一轮后二刷。</li>
+        <li><b>生物概念</b>：每天 1 张概念卡 / 1 个流程图，背教材原话 + 合书默写。</li>
+        <li><b>语文实词</b>：每天 2 个，例句一起背。</li>
+        <li><b>化学卡片</b>：周中背 1 张（方程式/实验现象），周末统一复习本周卡片。</li>
+        <li><b>12 小时节点</b>：每天睡前 3 分钟，闭眼过一遍当天背的所有内容，想不起来的明早第一件事补。</li>
+        <li><b>5 分钟节点</b>：学完立刻合书自测一遍；<b>30 分钟节点</b>：完成当天其他任务后再测一遍。</li>
+      </ul>
+      <div class="note">技巧：复习时<b>先自测再翻书</b>（提取练习），想不起来再看答案——这样记得最牢；能用画面/谐音/词根联想的就联想，但联想只做辅助，自测才是主菜。</div>
+    </div>
+    <div class="card">
+      <h3>今天要做什么（自动计算）</h3>
+      <div id="todayTask" class="kb">设置开始日期后自动显示：今天新学第几组、要复习哪几组。</div>
+      <div id="todayProgress" class="kb" style="margin-top:6px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>15 天滚动复习表（打卡自动保存到本机浏览器）</h3>
+    <div class="form-row">
+      <div><label>开始日期（第 1 天）</label><input type="date" id="ebStart"></div>
+      <div><label>每天新学数量（个/组）</label><input type="number" id="ebGroup" value="30" min="1" max="200"></div>
+      <div><label>生成表</label><button class="btn" onclick="genEb()">生成 / 刷新复习表</button></div>
+    </div>
+    <div style="overflow-x:auto">
+      <table id="ebTable">
+        <tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th></tr>
+      </table>
+    </div>
+    <div class="note" id="ebHint">📌 使用方法：每天学完新内容勾"新学"；按表中"今天要复习"的组号自测，测完勾"复习"。勾选状态自动保存在本机，刷新不丢。15 天后再重复一轮，或把开始日期往后推 15 天继续。</div>
+  </div>
+</div></section><section id="mindset"><div class="wrap">
+  <h2>五、心态调整 <span class="tag">针对"没动力"：3 条可执行建议</span></h2>
+  <p class="lead">没动力的本质是"启动太难"或"看不到反馈"。这三条不靠意志力，靠流程设计。</p>
+  <div class="grid3">
+    <div class="card">
+      <h3>① 心流入场法（解决"启动难"）</h3>
+      <ul>
+        <li>没动力时，<b>不想"学 2 小时"，只想"开始 25 分钟"</b>。</li>
+        <li>第一步：选你最喜欢的科目（比如生物、或看 B 站视频课）。</li>
+        <li>第二步：只定一个 25 分钟小目标，例如"只背 20 个单词""只看一讲视频并做笔记"。</li>
+        <li>第三步：25 分钟一到就停，勾掉完成；<b>心流是从"完成第一个番茄"开始的</b>，不是等来的。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>② 成长型思维重构（解决"我是不是不行"）</h3>
+      <ul>
+        <li>把"我英语 69 分"改写为<b>"我的词汇量还没到位"</b>——分数是当前水平的快照，不是能力上限（Carol Dweck）。</li>
+        <li>每周写下 <b>3 件"本周新学会的事"</b>贴在书桌：只记录学会了什么，不记录考了多少分。</li>
+        <li>考砸了只问一个问题："这次暴露了哪个知识点没掌握？"——然后把它加进下周计划，完事。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>③ 奖励机制（把开心的事变成引擎）</h3>
+      <ul>
+        <li><b>固定奖励</b>：每周日检查——本周打卡率 ≥ 80% 就兑现一次具体奖励（一场电影 / 一集剧 / 打球），周日晚兑现，不拖欠。</li>
+        <li>把"和她看电影"那种开心感，变成<b>"完成任务之后的期待感"</b>：先做完任务，奖励才成立，让大脑建立"坚持 → 奖励"的连接。</li>
+        <li><b>目标可视化</b>：打印一张天津大学校门 / 图书馆的照片贴在书桌，没动力时看 10 秒，然后立刻开始第一个番茄。</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="review"><div class="wrap">
+  <h2>六、复盘机制 <span class="tag">用数据检查进步，不靠感觉</span></h2>
+  <p class="lead">规则：<b>先查执行（打卡率），再看成绩</b>。打卡率 ≥ 80% 才有资格谈成绩；成绩没涨先回去抓执行。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>每周日复盘（30 分钟）——五指标</h3>
+      <div class="form-row">
+        <div><label>① 本周番茄完成数</label><input type="number" id="w1" min="0" placeholder="阶段1目标≥40"></div>
+        <div><label>② 复习表打卡率 %</label><input type="number" id="w2" min="0" max="100" placeholder="≥80 才算达标"></div>
+        <div><label>③ 刷题正确率 %</label><input type="number" id="w3" min="0" max="100"></div>
+        <div><label>④ 错题重做正确率 %</label><input type="number" id="w4" min="0" max="100"></div>
+        <div><label>⑤ 单词抽查正确率 %</label><input type="number" id="w5" min="0" max="100"></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="saveWeekly()">保存本周复盘</button>
+        <button class="btn sm" onclick="clearWeekly()" style="background:#eee;color:#333">清空</button>
+      </div>
+      <div id="weeklyResult"></div>
+      <p class="kb" style="margin-top:8px">判定：打卡率 ≥ 80% → 看正确率趋势；正确率连续两周不涨 → 换方法（先检查是不是只做题没总结）。打卡率 &lt; 80% → 下周先减量保打卡，再谈提分。</p>
+    </div>
+
+    <div class="card">
+      <h3>每月复盘——六科雷达图</h3>
+      <p class="kb">每次月考 / 大考后填一次：<b>上月成绩</b> vs <b>本月成绩</b>，看每科是否朝目标线移动；差距最大的两科下月加时间。初始示例：上月＝现在成绩，本月＝高二期末目标线。</p>
+      <div class="form-row">
+        <div><label>语（上月）</label><input type="number" id="r1" value="96" min="0" max="150"></div>
+        <div><label>数（上月）</label><input type="number" id="r2" value="122" min="0" max="150"></div>
+        <div><label>英（上月）</label><input type="number" id="r3" value="69" min="0" max="150"></div>
+        <div><label>物（上月）</label><input type="number" id="r4" value="61" min="0" max="100"></div>
+        <div><label>化（上月）</label><input type="number" id="r5" value="68.5" min="0" max="100"></div>
+        <div><label>生（上月）</label><input type="number" id="r6" value="48.5" min="0" max="100"></div>
+      </div>
+      <div class="form-row">
+        <div><label>语（本月）</label><input type="number" id="s1" value="103" min="0" max="150"></div>
+        <div><label>数（本月）</label><input type="number" id="s2" value="127" min="0" max="150"></div>
+        <div><label>英（本月）</label><input type="number" id="s3" value="95" min="0" max="150"></div>
+        <div><label>物（本月）</label><input type="number" id="s4" value="72" min="0" max="100"></div>
+        <div><label>化（本月）</label><input type="number" id="s5" value="76" min="0" max="100"></div>
+        <div><label>生（本月）</label><input type="number" id="s6" value="66" min="0" max="100"></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="drawRadar()">📊 画雷达图</button>
+        <button class="btn sm" onclick="drawRadar(true)" style="background:#eee;color:#333">还原示例</button>
+      </div>
+      <canvas id="radar" width="560" height="440" style="width:100%;max-width:560px;height:auto;margin-top:8px"></canvas>
+      <div class="kb" style="display:flex;gap:16px;justify-content:center;margin-top:4px">
+        <span><span style="color:#1a6fb5;font-weight:700">■</span> 上月</span>
+        <span><span style="color:#e65100;font-weight:700">■</span> 本月 / 目标线</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>阶段节点检查</h3>
+    <table>
+      <tr><th>节点</th><th class="num">目标总分</th><th>怎么检查</th></tr>
+      <tr><td>高二期末</td><td class="num">539</td><td>六科加总对比；单科差 10 分以上 → 下月该科周末加 1 小时</td></tr>
+      <tr><td>高三一模</td><td class="num">608</td><td>重点看英语、生物是否到 118 / 80——两科是提分主力</td></tr>
+      <tr><td>高考</td><td class="num">660</td><td>比天津大学 2025 在津最低线 651 高 9 分，留安全边际</td></tr>
+    </table>
+  </div>
+</div></section><section id="pitfalls"><div class="wrap">
+  <h2>七、避坑清单 <span class="tag">这个分数段最容易犯的 5 个错</span></h2>
+  <div class="card">
+    <ol>
+      <li><b>只背不测。</b>背单词、背生物，背完不测就是自我感动。改法：<b>每次背诵结束必须合书自测</b>，测不出来的标记为"没记住"，明天先复习它。</li>
+      <li><b>只看课不动手。</b>B 站视频看 2 小时 = 娱乐。改法：<b>每看 30 分钟，必须完成笔记 + 3 道题 + 给自己讲一遍</b>，做不到就不开下一讲。</li>
+      <li><b>周末硬扛不休息。</b>25 小时连轴转，第 3 周必崩。改法：番茄 25+5 雷打不动，<b>每 4 个番茄大休息 15-20 分钟</b>，晚上 11 点前睡觉。</li>
+      <li><b>刷题不复盘。</b>错题不改 = 白刷。改法：每道错题回答三问——<b>为什么错 / 考什么知识点 / 下次怎么防</b>，并把错题排进下周重做。</li>
+      <li><b>放弃语文。</b>"语文反正涨得慢"是 96 分的人最容易信的话。改法：<b>每天 15 分钟文言文精读</b>，从今天开始，两年后就是 115+；高三再补真的来不及。</li>
+    </ol>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <h4>方法库（均来自已验证的学习科学）</h4>
+  <p>费曼学习法 · 艾宾浩斯遗忘曲线（5min/30min/12h/1d/2d/4d/7d/15d）· 番茄工作法（25+5）· 康奈尔笔记法 · 提取练习·主动回忆（《认知天性》）· 刻意练习（走出舒适区+即时反馈）· 成长型思维（Carol Dweck《Mindset》）· 心流（Csikszentmihalyi《Flow》）· 西蒙学习法（目标拆解）· 思维导图</p>
+  <h4>事实与数据来源</h4>
+  <ul>
+    <li>天津大学 2025 年在津最低录取 651 分：<a href="https://news.tju.edu.cn/info/1005/553729.htm" target="_blank">天津大学新闻网《天大在津招生录取收官》</a></li>
+    <li>天津高考总分 750（语数外各 150，等级考科目每门 100）：<a href="https://jy.tj.gov.cn/JYXW/TJJY/202605/t20260507_7294422.html" target="_blank">天津市教委《2026 年天津高考时间公布》</a></li>
+    <li>等级考五等 21 级赋分（A=100，E=40，相邻 3 分）：<a href="https://gaokao.chsi.com.cn/gkxx/zc/ss/201604/20160429/1531109405-5.html" target="_blank">阳光高考《天津市深化考试招生制度改革实施方案解读》</a></li>
+    <li>英语一年两考（3 月首考，听力机考 20 分两次取最高，6 月二考）：<a href="https://gaokao.chsi.com.cn/gkxx/zc/ss/202404/20240412/2293289731-6.html" target="_blank">阳光高考《天津 2024 年普通高校招生工作规定》</a></li>
+  </ul>
+  <p class="src" style="margin-top:12px">本方案生成日期：2026-08-14 · 版本 v1.0 · 打卡与复盘数据只保存在你自己的浏览器（localStorage），不上传任何服务器。</p>
+</div></footer>
+
+<div class="pomo" id="pomo">
+  <div class="head" onclick="togglePomo()">🍅 番茄钟 <span id="pomoArrow">▾</span></div>
+  <div class="body">
+    <div class="time" id="pomoTime">25:00</div>
+    <div class="mode" id="pomoMode">专注时间 · 25 分钟</div>
+    <div class="btns">
+      <button class="btn sm" id="pomoStart" onclick="pomoToggle()">开始</button>
+      <button class="btn sm" onclick="pomoReset()" style="background:#eee;color:#333">重置</button>
+    </div>
+    <div class="stat" id="pomoStat">本日完成 0 个番茄</div>
+  </div>
+</div><script>
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  /* ========== 番茄钟 ========== */
+  var pomo={work:25*60,brk:5*60,left:25*60,mode:'work',timer:null,running:false,done:0};
+  var todayKey='sp_pomo_'+new Date().toISOString().slice(0,10);
+  try{pomo.done=parseInt(localStorage.getItem(todayKey)||'0',10)||0;}catch(e){}
+  var pomoEl=$('pomo'),timeEl=$('pomoTime'),modeEl=$('pomoMode'),statEl=$('pomoStat'),startBtn=$('pomoStart');
+  function fmt2(n){return (n<10?'0':'')+n;}
+  function fmt(s){return fmt2(Math.floor(s/60))+':'+fmt2(s%60);}
+  function beep(){
+    try{
+      var ctx=new (window.AudioContext||window.webkitAudioContext)();
+      var o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='sine';o.frequency.value=880;
+      g.gain.setValueAtTime(0.15,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
+      o.start();o.stop(ctx.currentTime+0.6);
+    }catch(e){}
+  }
+  function renderPomo(){
+    timeEl.textContent=fmt(pomo.left);
+    modeEl.textContent=(pomo.mode==='work'?'专注时间 · 25 分钟':'休息时间 · 5 分钟');
+    startBtn.textContent=pomo.running?'暂停':'开始';
+    statEl.textContent='本日完成 '+pomo.done+' 个番茄';
+  }
+  window.pomoToggle=function(){
+    if(pomo.running){clearInterval(pomo.timer);pomo.running=false;}
+    else{
+      pomo.running=true;
+      pomo.timer=setInterval(function(){
+        pomo.left--;
+        if(pomo.left<=0){
+          beep();
+          if(pomo.mode==='work'){pomo.done++;try{localStorage.setItem(todayKey,String(pomo.done));}catch(e){}}
+          pomo.mode=(pomo.mode==='work')?'brk':'work';
+          pomo.left=(pomo.mode==='work')?25*60:5*60;
+          pomo.running=false;clearInterval(pomo.timer);
+          setTimeout(beep,700);
+        }
+        renderPomo();
+      },1000);
+    }
+    renderPomo();
+  };
+  window.pomoReset=function(){
+    clearInterval(pomo.timer);pomo.running=false;
+    pomo.left=(pomo.mode==='work')?25*60:5*60;
+    renderPomo();
+  };
+  window.togglePomo=function(){
+    pomoEl.classList.toggle('collapsed');
+    $('pomoArrow').textContent=pomoEl.classList.contains('collapsed')?'▸':'▾';
+  };
+  renderPomo();
+  /* ========== 艾宾浩斯复习表 ========== */
+  var ebStart=$('ebStart'),ebGroup=$('ebGroup'),ebTable=$('ebTable'),todayCard=$('todayTask'),todayProg=$('todayProgress');
+  if(!ebStart.value){var d=new Date();d.setHours(0,0,0,0);ebStart.value=d.getFullYear()+'-'+fmt2(d.getMonth()+1)+'-'+fmt2(d.getDate());}
+  function ebKey(date,type){return 'sp_eb_'+date+'_'+type;}
+  function dayOffset(from,to){
+    var a=new Date(from.getFullYear(),from.getMonth(),from.getDate()).getTime();
+    var b=new Date(to.getFullYear(),to.getMonth(),to.getDate()).getTime();
+    return Math.round((b-a)/86400000);
+  }
+  function fmtDate(dt){return dt.getFullYear()+'-'+fmt2(dt.getMonth()+1)+'-'+fmt2(dt.getDate());}
+  function chineseDay(dt){
+    var w=['日','一','二','三','四','五','六'];
+    return '周'+w[dt.getDay()];
+  }
+  function parseDate(v){
+    if(!v)return null;
+    var p=v.split('-');
+    return new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10));
+  }
+  function isEbDone(date,type){
+    try{return localStorage.getItem(ebKey(date,type))==='1';}catch(e){return false;}
+  }
+  window.genEb=function(){
+    var start=parseDate(ebStart.value);
+    if(!start){alert('请选择开始日期');return;}
+    var gs=parseInt(ebGroup.value,10)||30;
+    var rows='<tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th></tr>';
+    var today=new Date();today.setHours(0,0,0,0);
+    for(var i=0;i<15;i++){
+      var dt=new Date(start);dt.setDate(start.getDate()+i);
+      var ds=fmtDate(dt);
+      var group='第 '+(i+1)+' 组（'+gs+' 个）';
+      var revs=[1,2,4,7,15].map(function(o){return i+1-o;}).filter(function(n){return n>=1;});
+      var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'—';
+      var newCk='<input type="checkbox" data-date="'+ds+'" data-type="new" '+(isEbDone(ds,'new')?'checked':'')+'>';
+      var revCk='<input type="checkbox" data-date="'+ds+'" data-type="rev" '+(isEbDone(ds,'rev')?'checked':'')+'>';
+      var cls=(dayOffset(today,dt)===0)?' style="background:#fff7dd"':'';
+      rows+='<tr'+cls+'><td>'+ds+'（'+chineseDay(dt)+'）</td><td>'+(i+1)+'</td><td>'+group+'</td><td>'+revTxt+'</td><td>'+newCk+'</td><td>'+revCk+'</td></tr>';
+    }
+    ebTable.innerHTML=rows;
+    var boxes=ebTable.querySelectorAll('input[type=checkbox]');
+    for(var j=0;j<boxes.length;j++){
+      boxes[j].addEventListener('change',function(){
+        try{localStorage.setItem(ebKey(this.getAttribute('data-date'),this.getAttribute('data-type')),this.checked?'1':'0');}catch(e){}
+        updateToday();
+      });
+    }
+    updateToday();
+    ebTable.scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  function updateToday(){
+    var start=parseDate(ebStart.value);
+    if(!start){todayCard.textContent='请先设置开始日期。';return;}
+    var today=new Date();today.setHours(0,0,0,0);
+    var off=dayOffset(start,today);
+    if(off<0){todayCard.textContent='还没到开始日期，先准备第一组内容。';todayProg.textContent='';return;}
+    if(off>14){todayCard.textContent='本轮 15 天已结束：把开始日期往后推 15 天开始第二轮，或进入下一阶段。';todayProg.textContent='';return;}
+    var gs=parseInt(ebGroup.value,10)||30;
+    var revs=[1,2,4,7,15].map(function(o){return off+1-o;}).filter(function(n){return n>=1;});
+    var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'没有要复习的旧内容';
+    todayCard.innerHTML='<b>第 '+(off+1)+' 天（'+fmtDate(today)+'）</b><br>📖 新学：第 '+(off+1)+' 组（'+gs+' 个）<br>🔁 复习：'+revTxt+'<br>🌙 睡前 12h 节点：闭眼过一遍今天学的，想不起来的明早补。';
+    var doneN=0,doneR=0,totalN=0,totalR=0;
+    for(var i=0;i<=off;i++){
+      var dt=new Date(start);dt.setDate(start.getDate()+i);
+      var ds=fmtDate(dt);
+      totalN++;totalR++;
+      if(isEbDone(ds,'new'))doneN++;
+      if(isEbDone(ds,'rev'))doneR++;
+    }
+    var rateN=totalN?Math.round(doneN/totalN*100):0;
+    var rateR=totalR?Math.round(doneR/totalR*100):0;
+    todayProg.innerHTML='打卡：新学 '+doneN+'/'+totalN+'（'+rateN+'%）· 复习 '+doneR+'/'+totalR+'（'+rateR+'%）<br><b>本周（近 7 天）打卡率 ≥ 80% 才看成绩。</b>';
+  }  /* ========== 周复盘 ========== */
+  var wkEls=['w1','w2','w3','w4','w5'].map(function(id){return $(id);});
+  function loadWeekly(){
+    try{
+      var raw=localStorage.getItem('sp_weekly');
+      if(!raw)return;
+      var o=JSON.parse(raw);
+      wkEls[0].value=o.w1||'';wkEls[1].value=o.w2||'';wkEls[2].value=o.w3||'';wkEls[3].value=o.w4||'';wkEls[4].value=o.w5||'';
+      showWeekly(o);
+    }catch(e){}
+  }
+  function showWeekly(o){
+    var el=$('weeklyResult');
+    var rate=parseFloat(o.w2);
+    var html='<div class="note '+(rate>=80?'ok':'err')+'">最近保存：'+o.date+'｜打卡率 '+o.w2+'% → '+(rate>=80?'✅ 执行达标，可以看成绩了':'⚠️ 先抓执行：下周减量保打卡，再谈提分')+'</div>';
+    el.innerHTML=html;
+  }
+  window.saveWeekly=function(){
+    var o={date:new Date().toLocaleString('zh-CN',{hour12:false}),w1:wkEls[0].value,w2:wkEls[1].value,w3:wkEls[2].value,w4:wkEls[3].value,w5:wkEls[4].value};
+    try{localStorage.setItem('sp_weekly',JSON.stringify(o));}catch(e){}
+    showWeekly(o);
+  };
+  window.clearWeekly=function(){
+    try{localStorage.removeItem('sp_weekly');}catch(e){}
+    wkEls.forEach(function(x){x.value='';});
+    $('weeklyResult').innerHTML='';
+  };
+  loadWeekly();
+  /* ========== 六科雷达图 ========== */
+  var RADAR_MAX=[150,150,150,100,100,100];
+  var RADAR_NAMES=['语文','数学','英语','物理','化学','生物'];
+  window.drawRadar=function(reset){
+    if(reset){
+      var a=[96,122,69,61,68.5,48.5],b=[103,127,95,72,76,66];
+      for(var k=0;k<6;k++){ $('r'+(k+1)).value=a[k]; $('s'+(k+1)).value=b[k]; }
+    }
+    var c=$('radar'),ctx=c.getContext('2d');
+    var dpr=window.devicePixelRatio||1;
+    var W=560,H=440;
+    c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
+    ctx.clearRect(0,0,W,H);
+    var cx=W/2,cy=H/2-18,R=150;
+    var series=[
+      {label:'上月',color:'#1a6fb5',vals:[1,2,3,4,5,6].map(function(i){return parseFloat($('r'+i).value)||0;})},
+      {label:'本月',color:'#e65100',vals:[1,2,3,4,5,6].map(function(i){return parseFloat($('s'+i).value)||0;})}
+    ];
+    function pt(i,r){var ang=-Math.PI/2+i*Math.PI/3;return [cx+r*Math.cos(ang),cy+r*Math.sin(ang)];}
+    function poly(vals,color,fill){
+      ctx.beginPath();
+      for(var i=0;i<6;i++){
+        var ratio=Math.min(1,vals[i]/RADAR_MAX[i]);
+        var p=pt(i,R*ratio);
+        if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);
+      }
+      ctx.closePath();
+      if(fill){ctx.fillStyle=color;ctx.globalAlpha=0.18;ctx.fill();ctx.globalAlpha=1;}
+      ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.stroke();
+    }
+    ctx.strokeStyle='#d5dee8';ctx.lineWidth=1;
+    for(var ring=1;ring<=5;ring++){
+      ctx.beginPath();
+      for(var i=0;i<6;i++){
+        var p=pt(i,R*ring/5);
+        if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);
+      }
+      ctx.closePath();ctx.stroke();
+    }
+    ctx.strokeStyle='#c3d0dd';
+    for(var i=0;i<6;i++){
+      var p=pt(i,R);
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p[0],p[1]);ctx.stroke();
+      var lp=pt(i,R+26);
+      ctx.fillStyle='#33475b';ctx.font='13px "Microsoft YaHei",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(RADAR_NAMES[i],lp[0],lp[1]);
+      var lp2=pt(i,R+42);
+      ctx.fillStyle='#7a8a99';ctx.font='11px "Microsoft YaHei",sans-serif';
+      ctx.fillText('满分'+RADAR_MAX[i],lp2[0],lp2[1]);
+    }
+    poly(series[0].vals,series[0].color,true);
+    poly(series[1].vals,series[1].color,true);
+    ctx.fillStyle='#33475b';ctx.font='12px "Microsoft YaHei",sans-serif';ctx.textAlign='center';
+    ctx.fillText(series[0].label+' '+series[0].vals.reduce(function(a,b){return a+b;},0).toFixed(1)+' 分',cx,cy-80);
+    ctx.fillText(series[1].label+' '+series[1].vals.reduce(function(a,b){return a+b;},0).toFixed(1)+' 分',cx,cy-62);
+  };
+  window.genEb();
+  drawRadar();
+})();
+</script>
+</body>
+</html>
