@@ -132,6 +132,21 @@ footer h4{color:#fff; margin:14px 0 6px;}
   li{font-size:14.5px;}
   footer{padding:24px 0 90px;}
 }
+.sub-search{display:flex; gap:8px; align-items:center; margin:14px 0 2px;}
+.sub-search input{flex:1; min-width:180px; font-size:16px;}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 2px;}
+.chip{display:inline-block; background:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.85); border-radius:999px; padding:5px 14px; font-size:13px; color:var(--navy); cursor:pointer; box-shadow:inset 0 1px 0 rgba(255,255,255,.8); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); transition:all .15s ease; -webkit-tap-highlight-color:transparent; touch-action:manipulation;}
+.chip:hover{background:rgba(26,111,181,.14);}
+.chip.on{background:linear-gradient(180deg,rgba(110,180,255,.95),rgba(26,111,181,.92)); color:#fff; box-shadow:0 3px 10px rgba(26,111,181,.3);}
+.sub-count{font-size:13px; color:var(--muted); margin:6px 0 0;}
+.card.hide{display:none;}
+.card.hl{outline:2px solid rgba(26,111,181,.4); outline-offset:2px;}
+@media (max-width:640px){
+  .sub-search{flex-direction:column; align-items:stretch;}
+  .sub-search input{min-width:0;}
+  .chip{padding:7px 14px; font-size:14px;}
+}
+
 @media print{
   nav,.pomo,.no-print,body::before,body::after{display:none !important;}
   html,body{background:#fff !important;}
@@ -236,7 +251,17 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
   <h2>二、分科策略 <span class="tag">每科：方法 + 每日动作 + 真实资源</span></h2>
   <p class="lead">以下 B 站资源均为真实可查的公开免费课，在 B 站搜索 UP 主名字即可找到。看视频课的规则：<b>每看 30 分钟，必须完成笔记 + 3 道题 + 给自己讲一遍</b>，否则等于没看。</p>
 
-  <div class="grid2">
+    <div class="sub-search">
+    <input type="text" id="subSearch" placeholder="🔍 搜科目或方法：英语、费曼、思维导图、公式、艾宾浩斯…">
+    <button class="btn sm ghost" onclick="filterSubjects('')">清除</button>
+  </div>
+  <div class="chips" id="subChips">
+    <span class="chip" onclick="subChip('英语')">英语</span><span class="chip" onclick="subChip('生物')">生物</span><span class="chip" onclick="subChip('物理')">物理</span><span class="chip" onclick="subChip('化学')">化学</span><span class="chip" onclick="subChip('数学')">数学</span><span class="chip" onclick="subChip('语文')">语文</span>
+  </div>
+  <p class="sub-count" id="subCount">共 6 科：输入关键词或点科目按钮，只看对应策略</p>
+  <div class="note err" id="subEmpty" style="display:none">没有找到匹配内容。试试科目名（英语/物理…）或方法名（费曼/艾宾浩斯/思维导图/错题/公式…）</div>
+
+  <div class="grid2" id="subjectsGrid">
     <div class="card">
       <h3><span class="badge p1">P1 每天必做</span>英语（69 → 132）</h3>
       <p><b>① 最适合的方法</b></p>
@@ -664,6 +689,27 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
 </div><script>
 (function(){
   var $=function(id){return document.getElementById(id);};
+  /* ========== 分科策略搜索 ========== */
+  var subBox=$('subSearch'),subGrid=$('subjectsGrid'),subCount=$('subCount'),subEmpty=$('subEmpty');
+  var subCards=subGrid?Array.prototype.slice.call(subGrid.querySelectorAll('.card')):[];
+  var subChips=Array.prototype.slice.call(document.querySelectorAll('#subChips .chip'));
+  window.filterSubjects=function(q){
+    q=(q||'').trim().toLowerCase();
+    var n=0;
+    subCards.forEach(function(c){
+      var hit=!q||c.textContent.toLowerCase().indexOf(q)>-1;
+      c.classList.toggle('hide',!hit);
+      c.classList.toggle('hl',hit&&!!q);
+      if(hit)n++;
+    });
+    subChips.forEach(function(ch){ch.classList.toggle('on',!!q&&ch.textContent.toLowerCase()===q);});
+    if(subCount)subCount.textContent=(q?'显示 '+n+' 科 / 共 '+subCards.length+' 科 · 关键词「'+q+'」':'共 '+subCards.length+' 科：输入关键词或点科目按钮，只看对应策略');
+    if(subEmpty)subEmpty.style.display=n?'none':'block';
+  };
+  window.subChip=function(name){ if(subBox)subBox.value=name; filterSubjects(name); };
+  if(subBox)subBox.addEventListener('input',function(){filterSubjects(subBox.value);});
+
+
   /* ========== 番茄钟 ========== */
   var pomo={work:25*60,brk:5*60,left:25*60,mode:'work',timer:null,running:false,done:0};
   var todayKey='sp_pomo_'+new Date().toISOString().slice(0,10);
