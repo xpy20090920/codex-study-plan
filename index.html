@@ -457,66 +457,94 @@
 </div></section>
 
 <section id="review"><div class="wrap">
-  <h2>六、复盘机制 <span class="tag">用数据检查进步，不靠感觉</span></h2>
-  <p class="lead">规则：<b>先查执行（打卡率），再看成绩</b>。打卡率 ≥ 80% 才有资格谈成绩；成绩没涨先回去抓执行。</p>
+  <h2>六、复盘机制 <span class="tag">周复盘 → 月复盘 → 自动生成下周计划</span></h2>
+  <p class="lead">规则：<b>先查执行（打卡率），再看成绩</b>。每次复盘结束，系统会按数据自动给出"下周行动建议"——复盘不是记流水账，是生成决策。</p>
 
-  <div class="grid2">
-    <div class="card">
-      <h3>每周日复盘（30 分钟）——五指标</h3>
-      <div class="form-row">
-        <div><label>① 本周番茄完成数</label><input type="number" id="w1" min="0" placeholder="阶段1目标≥40"></div>
-        <div><label>② 复习表打卡率 %</label><input type="number" id="w2" min="0" max="100" placeholder="≥80 才算达标"></div>
-        <div><label>③ 刷题正确率 %</label><input type="number" id="w3" min="0" max="100"></div>
-        <div><label>④ 错题重做正确率 %</label><input type="number" id="w4" min="0" max="100"></div>
-        <div><label>⑤ 单词抽查正确率 %</label><input type="number" id="w5" min="0" max="100"></div>
-      </div>
-      <div class="toolbar">
-        <button class="btn" onclick="saveWeekly()">保存本周复盘</button>
-        <button class="btn sm" onclick="clearWeekly()" style="background:#eee;color:#333">清空</button>
-      </div>
-      <div id="weeklyResult"></div>
-      <p class="kb" style="margin-top:8px">判定：打卡率 ≥ 80% → 看正确率趋势；正确率连续两周不涨 → 换方法（先检查是不是只做题没总结）。打卡率 &lt; 80% → 下周先减量保打卡，再谈提分。</p>
+  <div class="card">
+    <h3>① 每周日复盘（30 分钟）——七指标 + 历史趋势 + 自动判定</h3>
+    <div class="form-row">
+      <div><label>番茄完成数</label><input type="number" id="w1" min="0" placeholder="阶段1≥40"></div>
+      <div><label>复习表打卡率 %</label><input type="number" id="w2" min="0" max="100" placeholder="≥80 达标"></div>
+      <div><label>刷题正确率 %</label><input type="number" id="w3" min="0" max="100"></div>
+      <div><label>错题重做率 %</label><input type="number" id="w4" min="0" max="100"></div>
+      <div><label>单词抽查正确率 %</label><input type="number" id="w5" min="0" max="100"></div>
+      <div><label>本周新增错题（道）</label><input type="number" id="w6" min="0"></div>
+      <div><label>本周错题清零（道）</label><input type="number" id="w7" min="0"></div>
     </div>
-
-    <div class="card">
-      <h3>每月复盘——六科雷达图</h3>
-      <p class="kb">每次月考 / 大考后填一次：<b>上月成绩</b> vs <b>本月成绩</b>，看每科是否朝目标线移动；差距最大的两科下月加时间。初始示例：上月＝现在成绩，本月＝高二期末目标线。</p>
-      <div class="form-row">
-        <div><label>语（上月）</label><input type="number" id="r1" value="96" min="0" max="150"></div>
-        <div><label>数（上月）</label><input type="number" id="r2" value="122" min="0" max="150"></div>
-        <div><label>英（上月）</label><input type="number" id="r3" value="69" min="0" max="150"></div>
-        <div><label>物（上月）</label><input type="number" id="r4" value="61" min="0" max="100"></div>
-        <div><label>化（上月）</label><input type="number" id="r5" value="68.5" min="0" max="100"></div>
-        <div><label>生（上月）</label><input type="number" id="r6" value="48.5" min="0" max="100"></div>
-      </div>
-      <div class="form-row">
-        <div><label>语（本月）</label><input type="number" id="s1" value="103" min="0" max="150"></div>
-        <div><label>数（本月）</label><input type="number" id="s2" value="127" min="0" max="150"></div>
-        <div><label>英（本月）</label><input type="number" id="s3" value="95" min="0" max="150"></div>
-        <div><label>物（本月）</label><input type="number" id="s4" value="72" min="0" max="100"></div>
-        <div><label>化（本月）</label><input type="number" id="s5" value="76" min="0" max="100"></div>
-        <div><label>生（本月）</label><input type="number" id="s6" value="66" min="0" max="100"></div>
-      </div>
-      <div class="toolbar">
-        <button class="btn" onclick="drawRadar()">📊 画雷达图</button>
-        <button class="btn sm" onclick="drawRadar(true)" style="background:#eee;color:#333">还原示例</button>
-      </div>
-      <canvas id="radar" width="560" height="440" style="width:100%;max-width:560px;height:auto;margin-top:8px"></canvas>
-      <div class="kb" style="display:flex;gap:16px;justify-content:center;margin-top:4px">
-        <span><span style="color:#1a6fb5;font-weight:700">■</span> 上月</span>
-        <span><span style="color:#e65100;font-weight:700">■</span> 本月 / 目标线</span>
-      </div>
+    <div class="toolbar">
+      <button class="btn" onclick="saveWeekly()">保存本周复盘</button>
+      <button class="btn sm" onclick="clearWeekly()" style="background:#eee;color:#333">清空历史</button>
+      <span class="src" id="weeklyMeta"></span>
     </div>
+    <div id="weeklyResult"></div>
+    <div id="weeklyHistoryWrap"></div>
+    <div class="tbl-scroll"><canvas id="weeklyTrend" width="560" height="260" style="width:100%;max-width:560px;height:auto;margin:8px 0"></canvas></div>
+    <div class="kb" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:4px">
+      <span><span style="color:#0b3d6b;font-weight:700">■</span> 打卡率</span>
+      <span><span style="color:#1a6fb5;font-weight:700">■</span> 刷题正确率</span>
+      <span><span style="color:#2e7d32;font-weight:700">■</span> 错题重做率</span>
+      <span><span style="color:#e65100;font-weight:700">■</span> 单词抽查率</span>
+    </div>
+    <div id="weeklySuggest"></div>
   </div>
 
   <div class="card">
-    <h3>阶段节点检查</h3>
-    <div class="tbl-scroll"><table>
+    <h3>② 每月复盘——成绩存档 + 雷达对比 + 阶段目标线</h3>
+    <div class="form-row">
+      <div><label>月份（如 2026-09）</label><input type="text" id="monthLabel"></div>
+      <div><label>语文</label><input type="number" id="m1" min="0" max="150"></div>
+      <div><label>数学</label><input type="number" id="m2" min="0" max="150"></div>
+      <div><label>英语</label><input type="number" id="m3" min="0" max="150"></div>
+      <div><label>物理</label><input type="number" id="m4" min="0" max="100"></div>
+      <div><label>化学</label><input type="number" id="m5" min="0" max="100"></div>
+      <div><label>生物</label><input type="number" id="m6" min="0" max="100"></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" onclick="saveMonth()">保存本月成绩</button>
+      <button class="btn sm" onclick="clearMonth()" style="background:#eee;color:#333">清空历史</button>
+      <span class="src" id="monthMeta"></span>
+    </div>
+    <div id="monthHist"></div>
+    <div class="form-row">
+      <div><label>对比月份 A</label><select id="moA"></select></div>
+      <div><label>对比月份 B</label><select id="moB"></select></div>
+      <div><label>阶段目标线</label><select id="tgt" onchange="drawRadar()">
+        <option value="539" selected>高二期末 539</option>
+        <option value="608">高三一模 608</option>
+        <option value="660">高考 660</option>
+        <option value="0">不显示目标线</option>
+      </select></div>
+    </div>
+    <canvas id="radar" width="560" height="440" style="width:100%;max-width:560px;height:auto;margin-top:8px"></canvas>
+    <div class="kb" style="display:flex;gap:16px;justify-content:center;margin-top:4px">
+      <span><span style="color:#1a6fb5;font-weight:700">■</span> 月份 A</span>
+      <span><span style="color:#e65100;font-weight:700">■</span> 月份 B</span>
+      <span><span style="color:#2e7d32;font-weight:700">■</span> 目标线</span>
+    </div>
+    <div class="tbl-scroll"><canvas id="monthTrend" width="560" height="240" style="width:100%;max-width:560px;height:auto;margin:8px 0"></canvas></div>
+    <div class="kb" style="text-align:center">总分趋势（虚线为 539 / 608 / 660 阶段线）</div>
+    <div id="monthSuggest"></div>
+  </div>
+
+  <div class="card">
+    <h3>③ 下周计划生成器（复盘 → 决策闭环）</h3>
+    <p class="kb">点一下按钮，系统把上面两步的判定结果汇总成下周计划草稿；你可以修改，再保存。</p>
+    <div class="toolbar">
+      <button class="btn" onclick="genPlan()">🔄 根据复盘自动生成下周计划</button>
+      <button class="btn sm" onclick="savePlan()" style="background:#eee;color:#333">保存下周计划</button>
+    </div>
+    <textarea id="planBox" rows="5" style="margin-top:6px" placeholder="生成的计划会出现在这里，可手动修改后保存"></textarea>
+    <div id="planSaved"></div>
+  </div>
+
+  <div class="card">
+    <h3>④ 阶段节点检查</h3>
+    <table>
       <tr><th>节点</th><th class="num">目标总分</th><th>怎么检查</th></tr>
       <tr><td>高二期末</td><td class="num">539</td><td>六科加总对比；单科差 10 分以上 → 下月该科周末加 1 小时</td></tr>
       <tr><td>高三一模</td><td class="num">608</td><td>重点看英语、生物是否到 118 / 80——两科是提分主力</td></tr>
       <tr><td>高考</td><td class="num">660</td><td>比天津大学 2025 在津最低线 651 高 9 分，留安全边际</td></tr>
-    </table></div>
+    </table>
   </div>
 </div></section><section id="pitfalls"><div class="wrap">
   <h2>七、避坑清单 <span class="tag">这个分数段最容易犯的 5 个错</span></h2>
@@ -733,93 +761,196 @@
     renderTip(i);
   };
   renderTip((dayOfYear()-1)%TIPS.length);
-  /* ========== 周复盘 ========== */
-  var wkEls=['w1','w2','w3','w4','w5'].map(function(id){return $(id);});
-  function loadWeekly(){
-    try{
-      var raw=localStorage.getItem('sp_weekly');
-      if(!raw)return;
-      var o=JSON.parse(raw);
-      wkEls[0].value=o.w1||'';wkEls[1].value=o.w2||'';wkEls[2].value=o.w3||'';wkEls[3].value=o.w4||'';wkEls[4].value=o.w5||'';
-      showWeekly(o);
-    }catch(e){}
+  /* ========== 周复盘（历史存档+趋势图+自动判定） ========== */
+  var wkIn=['w1','w2','w3','w4','w5','w6','w7'].map(function(id){return $(id);});
+  function weekLabel(d){
+    var t=new Date(d); t.setHours(0,0,0,0);
+    var day=(t.getDay()+6)%7;
+    var th=new Date(t); th.setDate(th.getDate()-day+3);
+    var first=new Date(th.getFullYear(),0,1);
+    var wk=Math.floor((th-first)/604800000)+1;
+    return th.getFullYear()+'-W'+String(wk).padStart(2,'0');
   }
-  function showWeekly(o){
-    var el=$('weeklyResult');
-    var rate=parseFloat(o.w2);
-    var html='<div class="note '+(rate>=80?'ok':'err')+'">最近保存：'+o.date+'｜打卡率 '+o.w2+'% → '+(rate>=80?'✅ 执行达标，可以看成绩了':'⚠️ 先抓执行：下周减量保打卡，再谈提分')+'</div>';
+  function getWeekHist(){ try{ return JSON.parse(localStorage.getItem('sp_week_hist')||'[]'); }catch(e){ return []; } }
+  function setWeekHist(h){ try{ localStorage.setItem('sp_week_hist',JSON.stringify(h)); }catch(e){} }
+  window.saveWeekly=function(){
+    var r={week:weekLabel(new Date()),date:new Date().toLocaleDateString('zh-CN'),
+      pomo:wkIn[0].value,rate:wkIn[1].value,quiz:wkIn[2].value,redo:wkIn[3].value,words:wkIn[4].value,newerr:wkIn[5].value,fixerr:wkIn[6].value};
+    var h=getWeekHist(); h=h.filter(function(x){return x.week!==r.week;}); h.push(r);
+    h.sort(function(a,b){return a.week<b.week?-1:1;}); if(h.length>12)h=h.slice(-12);
+    setWeekHist(h); renderWeekly();
+  };
+  window.clearWeekly=function(){ if(confirm('确定清空全部周复盘历史？')){ localStorage.removeItem('sp_week_hist'); renderWeekly(); } };
+  function pct(v){ var n=parseFloat(v); return isNaN(n)?null:n; }
+  function weeklyVerdict(r){
+    var rate=pct(r.rate);
+    if(rate===null) return {cls:'err',txt:'未记录打卡率'};
+    return rate>=80 ? {cls:'ok',txt:'执行达标'} : {cls:'err',txt:'执行不足'};
+  }
+  function weeklyRules(r){
+    var out=[]; var rate=pct(r.rate),quiz=pct(r.quiz),redo=pct(r.redo),words=pct(r.words);
+    var ne=parseInt(r.newerr,10)||0, fx=parseInt(r.fixerr,10)||0;
+    if(rate<80){ out.push('打卡率 '+r.rate+'% < 80%：下周总量先减 20%，只保英语+生物每天打卡，其他科目从周末整块恢复'); }
+    else{
+      if(quiz<60) out.push('刷题正确率 '+r.quiz+'% < 60%：该科是基础没掌握，下周做题量减半，改回教材/视频+概念自测');
+      if(redo<70) out.push('错题重做率 '+r.redo+'% < 70%：错题没消化，下周每天加 10 分钟重做错题，先清零再开新题');
+      if(words<70) out.push('单词抽查 '+r.words+'% < 70%：下周新词减到每天 20 个，复习时间加 5 分钟');
+      if(ne>fx) out.push('错题在堆积（新增 '+ne+' / 清零 '+fx+'）：下周每科先把错题清零，再刷新题');
+      if(out.length===0) out.push('全部达标：保持现有节奏；正确率 ≥85% 的科目，每天可加 1 个番茄');
+    }
+    return out.slice(0,4);
+  }
+  function drawWeeklyTrend(h){
+    var c=$('weeklyTrend'),ctx=c.getContext('2d');
+    var dpr=window.devicePixelRatio||1,W=560,H=260; c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
+    ctx.clearRect(0,0,W,H);
+    if(h.length<2){ ctx.fillStyle='#7a8a99';ctx.font='13px "Microsoft YaHei",sans-serif';ctx.textAlign='center';ctx.fillText('保存 2 周以上才会出现趋势图',W/2,H/2); return; }
+    var series=[{key:'rate',color:'#0b3d6b'},{key:'quiz',color:'#1a6fb5'},{key:'redo',color:'#2e7d32'},{key:'words',color:'#e65100'}];
+    var padL=34,padR=10,padT=14,padB=28,iw=W-padL-padR,ih=H-padT-padB;
+    ctx.strokeStyle='#d5dee8';ctx.lineWidth=1;
+    for(var g=0;g<=4;g++){ var y=padT+ih*g/4; ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke(); ctx.fillStyle='#7a8a99';ctx.font='11px "Microsoft YaHei",sans-serif';ctx.textAlign='right';ctx.fillText(String(100-g*25),padL-6,y+4); }
+    for(var s=0;s<series.length;s++){
+      ctx.strokeStyle=series[s].color;ctx.lineWidth=2;ctx.beginPath();var started=false;
+      for(var i=0;i<h.length;i++){ var v=pct(h[i][series[s].key]); if(v===null){started=false;continue;} var x=padL+iw*i/(h.length-1),y=padT+ih*(1-v/100); if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y); }
+      ctx.stroke();
+    }
+    ctx.fillStyle='#33475b';ctx.font='11px "Microsoft YaHei",sans-serif';ctx.textAlign='center';
+    for(var i=0;i<h.length;i++){ ctx.fillText(h[i].week.slice(-2),padL+iw*i/(h.length-1),H-8); }
+  }
+  function renderWeekly(){
+    var h=getWeekHist();
+    $('weeklyMeta').textContent='已保存 '+h.length+' 周'+(h.length?('，最新：'+h[h.length-1].week):'');
+    var last=h.length?h[h.length-1]:null;
+    $('weeklyResult').innerHTML=last?('<div class="note '+(weeklyVerdict(last).cls)+'">最近一周 '+last.week+'（'+last.date+'）｜打卡率 '+last.rate+'% → '+weeklyVerdict(last).txt+'</div>'):'<div class="note">还没有周复盘记录：每周日填完 7 项点"保存本周复盘"，系统会自动存档并给行动建议。</div>';
+    var rows='';
+    for(var i=h.length-1;i>=0;i--){ var r=h[i]; var v=weeklyVerdict(r);
+      rows+='<tr><td>'+r.week+'</td><td class="num">'+r.pomo+'</td><td class="num">'+r.rate+'</td><td class="num">'+r.quiz+'</td><td class="num">'+r.redo+'</td><td class="num">'+r.words+'</td><td class="num">'+r.newerr+'</td><td class="num">'+r.fixerr+'</td><td>'+v.txt+'</td></tr>'; }
+    $('weeklyHistoryWrap').innerHTML=h.length?('<table><tr><th>周次</th><th class="num">番茄</th><th class="num">打卡率%</th><th class="num">刷题%</th><th class="num">重做%</th><th class="num">单词%</th><th class="num">新错题</th><th class="num">清零</th><th>判定</th></tr>'+rows+'</table>'):'';
+    drawWeeklyTrend(h);
+    $('weeklySuggest').innerHTML=last?('<div style="background:#f0f6fd;border:1px dashed var(--blue);border-radius:10px;padding:10px 14px;font-size:14px"><b>📌 本周判定 → 下周行动：</b><ul style="margin-top:4px">'+weeklyRules(last).map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>'):'';
+  }
+  renderWeekly();
+  /* ========== 月复盘（成绩存档+雷达对比+目标线+总分趋势） ========== */
+  var mIn=['m1','m2','m3','m4','m5','m6'].map(function(id){return $(id);});
+  var STAGES={539:[103,127,95,72,76,66],608:[112,132,118,82,84,80],660:[119,136,132,91,90,92]};
+  function getMonthHist(){ try{ return JSON.parse(localStorage.getItem('sp_month_hist')||'[]'); }catch(e){ return []; } }
+  function setMonthHist(h){ try{ localStorage.setItem('sp_month_hist',JSON.stringify(h)); }catch(e){} }
+  window.saveMonth=function(){
+    var lab=($('monthLabel').value||'').trim(); if(!lab){lab=new Date().toISOString().slice(0,7);}
+    var sc=[0,1,2,3,4,5].map(function(i){ return parseFloat(mIn[i].value)||0; });
+    var h=getMonthHist(); h=h.filter(function(x){return x.month!==lab;}); h.push({month:lab,scores:sc});
+    h.sort(function(a,b){return a.month<b.month?-1:1;}); if(h.length>12)h=h.slice(-12);
+    setMonthHist(h); renderMonths();
+  };
+  window.clearMonth=function(){ if(confirm('确定清空全部月成绩？')){ localStorage.removeItem('sp_month_hist'); renderMonths(); } };
+  function fillMonthSelects(){
+    var h=getMonthHist(); var a=$('moA'),b=$('moB');
+    var opts=h.map(function(x,i){ return '<option value="'+i+'">'+x.month+'</option>'; }).join('');
+    a.innerHTML=opts; b.innerHTML=opts;
+    if(h.length>=1)a.value=String(h.length-1);
+    if(h.length>=2)b.value=String(h.length-2);
+  }
+  function renderMonths(){
+    var h=getMonthHist();
+    $('monthMeta').textContent='已保存 '+h.length+' 个月';
+    var rows='';
+    for(var i=h.length-1;i>=0;i--){ var r=h[i]; var tot=r.scores.reduce(function(a,b){return a+b;},0).toFixed(1); rows+='<tr><td>'+r.month+'</td><td class="num">'+r.scores.join(' / ')+'</td><td class="num">'+tot+'</td></tr>'; }
+    $('monthHist').innerHTML=h.length?('<table><tr><th>月份</th><th class="num">语/数/英/物/化/生</th><th class="num">总分</th></tr>'+rows+'</table>'):'<div class="note">还没有成绩记录：每次月考后填六科分数点"保存本月成绩"，系统自动存档并画对比。</div>';
+    fillMonthSelects(); drawRadar(); drawMonthTrend(h);
+    monthSuggest(h);
+  }
+  function monthSuggest(h){
+    var el=$('monthSuggest'); if(!h.length){ el.innerHTML=''; return; }
+    var tgt=parseInt($('tgt').value,10)||0; var last=h[h.length-1];
+    var tot=last.scores.reduce(function(a,b){return a+b;},0);
+    var html='';
+    if(tgt){
+      var names=['语文','数学','英语','物理','化学','生物'];
+      var gaps=[];
+      for(var i=0;i<6;i++){ var d=last.scores[i]-STAGES[tgt][i]; if(d<=-10) gaps.push(names[i]+'低 '+(Math.abs(d)).toFixed(1)+' 分'); }
+      if(gaps.length){ html='<div class="note err">📌 距'+tgt+'分目标线，差距最大：'+gaps.join('、')+'——下月这'+(gaps.length>1?'几科':'科')+'周末各加 1 小时</div>'; }
+      else if(tot>=tgt){ html='<div class="note ok">✅ 总分 '+tot.toFixed(1)+' ≥ 目标 '+tgt+'，可以进入下一阶段目标（'+tgt+' → 下一档）</div>'; }
+      else { html='<div class="note ok">距目标线 '+tgt+' 还差 '+(tgt-tot).toFixed(1)+' 分：没有单科落后 10 分以上，说明分配均衡，保持节奏即可</div>'; }
+    }
     el.innerHTML=html;
   }
-  window.saveWeekly=function(){
-    var o={date:new Date().toLocaleString('zh-CN',{hour12:false}),w1:wkEls[0].value,w2:wkEls[1].value,w3:wkEls[2].value,w4:wkEls[3].value,w5:wkEls[4].value};
-    try{localStorage.setItem('sp_weekly',JSON.stringify(o));}catch(e){}
-    showWeekly(o);
-  };
-  window.clearWeekly=function(){
-    try{localStorage.removeItem('sp_weekly');}catch(e){}
-    wkEls.forEach(function(x){x.value='';});
-    $('weeklyResult').innerHTML='';
-  };
-  loadWeekly();
-  /* ========== 六科雷达图 ========== */
-  var RADAR_MAX=[150,150,150,100,100,100];
-  var RADAR_NAMES=['语文','数学','英语','物理','化学','生物'];
-  window.drawRadar=function(reset){
-    if(reset){
-      var a=[96,122,69,61,68.5,48.5],b=[103,127,95,72,76,66];
-      for(var k=0;k<6;k++){ $('r'+(k+1)).value=a[k]; $('s'+(k+1)).value=b[k]; }
-    }
+  function drawMonthTrend(h){
+    var c=$('monthTrend'),ctx=c.getContext('2d');
+    var dpr=window.devicePixelRatio||1,W=560,H=240; c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
+    ctx.clearRect(0,0,W,H);
+    var padL=40,padR=10,padT=16,padB=26,iw=W-padL-padR,ih=H-padT-padB,maxV=750;
+    ctx.strokeStyle='#d5dee8';ctx.lineWidth=1;
+    for(var g=0;g<=5;g++){ var y=padT+ih*g/5,val=750-g*150; ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke(); ctx.fillStyle='#7a8a99';ctx.font='11px "Microsoft YaHei",sans-serif';ctx.textAlign='right';ctx.fillText(String(val),padL-6,y+4); }
+    ctx.setLineDash([5,4]);ctx.strokeStyle='#9aa7b3';ctx.lineWidth=1;
+    [539,608,660].forEach(function(t){ var y=padT+ih*(1-t/maxV); ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke(); });
+    ctx.setLineDash([]);
+    if(h.length){
+      ctx.strokeStyle='#1a6fb5';ctx.lineWidth=2;ctx.beginPath();
+      for(var i=0;i<h.length;i++){ var tot=h[i].scores.reduce(function(a,b){return a+b;},0); var x=padL+iw*i/(h.length-1),y=padT+ih*(1-tot/maxV); if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y); }
+      ctx.stroke();
+      ctx.fillStyle='#1a6fb5';
+      for(var i=0;i<h.length;i++){ var tot=h[i].scores.reduce(function(a,b){return a+b;},0); var x=padL+iw*i/(h.length-1),y=padT+ih*(1-tot/maxV); ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill(); }
+      ctx.fillStyle='#33475b';ctx.font='11px "Microsoft YaHei",sans-serif';ctx.textAlign='center';
+      for(var i=0;i<h.length;i++){ ctx.fillText(h[i].month,padL+iw*i/(h.length-1),H-8); }
+    } else { ctx.fillStyle='#7a8a99';ctx.font='13px "Microsoft YaHei",sans-serif';ctx.textAlign='center';ctx.fillText('保存成绩后显示总分趋势',W/2,H/2); }
+  }
+  window.drawRadar=function(){
+    var h=getMonthHist(); var a=parseInt($('moA').value,10),b=parseInt($('moB').value,10); var tgt=parseInt($('tgt').value,10)||0;
     var c=$('radar'),ctx=c.getContext('2d');
-    var dpr=window.devicePixelRatio||1;
-    var W=560,H=440;
-    c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
+    var dpr=window.devicePixelRatio||1,W=560,H=440; c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
     ctx.clearRect(0,0,W,H);
     var cx=W/2,cy=H/2-18,R=150;
-    var series=[
-      {label:'上月',color:'#1a6fb5',vals:[1,2,3,4,5,6].map(function(i){return parseFloat($('r'+i).value)||0;})},
-      {label:'本月',color:'#e65100',vals:[1,2,3,4,5,6].map(function(i){return parseFloat($('s'+i).value)||0;})}
-    ];
+    var series=[];
+    if(h[a]) series.push({label:h[a].month,color:'#1a6fb5',vals:h[a].scores});
+    if(h[b] && b!==a) series.push({label:h[b].month,color:'#e65100',vals:h[b].scores});
+    var tgtVals=tgt?STAGES[tgt]:null;
+    var MAX=[150,150,150,100,100,100],NAMES=['语文','数学','英语','物理','化学','生物'];
     function pt(i,r){var ang=-Math.PI/2+i*Math.PI/3;return [cx+r*Math.cos(ang),cy+r*Math.sin(ang)];}
-    function poly(vals,color,fill){
+    function poly(vals,color,fill,dash){
       ctx.beginPath();
-      for(var i=0;i<6;i++){
-        var ratio=Math.min(1,vals[i]/RADAR_MAX[i]);
-        var p=pt(i,R*ratio);
-        if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);
-      }
+      for(var i=0;i<6;i++){ var ratio=Math.min(1,vals[i]/MAX[i]); var p=pt(i,R*ratio); if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]); }
       ctx.closePath();
-      if(fill){ctx.fillStyle=color;ctx.globalAlpha=0.18;ctx.fill();ctx.globalAlpha=1;}
-      ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.stroke();
+      if(dash)ctx.setLineDash([5,4]);
+      if(fill){ctx.fillStyle=color;ctx.globalAlpha=0.16;ctx.fill();ctx.globalAlpha=1;}
+      ctx.strokeStyle=color;ctx.lineWidth=dash?2:2.5;ctx.stroke();
+      ctx.setLineDash([]);
     }
     ctx.strokeStyle='#d5dee8';ctx.lineWidth=1;
-    for(var ring=1;ring<=5;ring++){
-      ctx.beginPath();
-      for(var i=0;i<6;i++){
-        var p=pt(i,R*ring/5);
-        if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);
-      }
-      ctx.closePath();ctx.stroke();
-    }
+    for(var ring=1;ring<=5;ring++){ ctx.beginPath(); for(var i=0;i<6;i++){var p=pt(i,R*ring/5);if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);} ctx.closePath();ctx.stroke(); }
     ctx.strokeStyle='#c3d0dd';
-    for(var i=0;i<6;i++){
-      var p=pt(i,R);
-      ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p[0],p[1]);ctx.stroke();
-      var lp=pt(i,R+26);
-      ctx.fillStyle='#33475b';ctx.font='13px "Microsoft YaHei",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(RADAR_NAMES[i],lp[0],lp[1]);
-      var lp2=pt(i,R+42);
-      ctx.fillStyle='#7a8a99';ctx.font='11px "Microsoft YaHei",sans-serif';
-      ctx.fillText('满分'+RADAR_MAX[i],lp2[0],lp2[1]);
+    for(var i=0;i<6;i++){ var p=pt(i,R); ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p[0],p[1]);ctx.stroke();
+      var lp=pt(i,R+26); ctx.fillStyle='#33475b';ctx.font='13px "Microsoft YaHei",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(NAMES[i],lp[0],lp[1]);
+      var lp2=pt(i,R+42); ctx.fillStyle='#7a8a99';ctx.font='11px "Microsoft YaHei",sans-serif';ctx.fillText('满分'+MAX[i],lp2[0],lp2[1]); }
+    if(tgtVals) poly(tgtVals,'#2e7d32',false,true);
+    for(var s=0;s<series.length;s++) poly(series[s].vals,series[s].color,true,false);
+    if(!series.length){ ctx.fillStyle='#7a8a99';ctx.font='13px "Microsoft YaHei",sans-serif';ctx.textAlign='center';ctx.fillText('保存成绩后显示雷达图',cx,cy); }
+    else {
+      ctx.fillStyle='#33475b';ctx.font='12px "Microsoft YaHei",sans-serif';ctx.textAlign='center';
+      for(var s=0;s<series.length;s++){ ctx.fillText(series[s].label+' '+series[s].vals.reduce(function(a,b){return a+b;},0).toFixed(1)+' 分',cx,cy-80+s*18); }
     }
-    poly(series[0].vals,series[0].color,true);
-    poly(series[1].vals,series[1].color,true);
-    ctx.fillStyle='#33475b';ctx.font='12px "Microsoft YaHei",sans-serif';ctx.textAlign='center';
-    ctx.fillText(series[0].label+' '+series[0].vals.reduce(function(a,b){return a+b;},0).toFixed(1)+' 分',cx,cy-80);
-    ctx.fillText(series[1].label+' '+series[1].vals.reduce(function(a,b){return a+b;},0).toFixed(1)+' 分',cx,cy-62);
   };
-  window.genEb();
-  drawRadar();
-})();
+  /* ========== 下周计划生成器（复盘→决策闭环） ========== */
+  window.genPlan=function(){
+    var lines=[]; var h=getWeekHist(); var last=h.length?h[h.length-1]:null;
+    if(last){ lines.push('【本周复盘】'+last.week+'：打卡率 '+last.rate+'%，刷题正确率 '+last.quiz+'%，错题重做率 '+last.redo+'%；新增错题 '+last.newerr+'，清零 '+last.fixerr+'。'); lines=lines.concat(weeklyRules(last).map(function(s){return '· '+s;})); }
+    var mh=getMonthHist();
+    if(mh.length){ var tgt=parseInt($('tgt').value,10)||0; if(tgt){ var ml=mh[mh.length-1]; var names=['语文','数学','英语','物理','化学','生物']; var gap=ml.scores.map(function(v,i){return v-STAGES[tgt][i];}); lines.push('【月度对照】'+ml.month+' 距'+tgt+'分目标线：'+gap.map(function(d,i){return names[i]+(d>=0?'+':'')+d.toFixed(1);}).join('，')+'。'); } }
+    lines.push('【下周重点】① 每天固定：英语单词 20 分钟 + 生物 15 分钟；② 打卡率 ≥80% 优先于一切；③ 周五晚上检查错题清零。');
+    $('planBox').value=lines.join('\n');
+  };
+  window.savePlan=function(){
+    var txt=$('planBox').value.trim(); if(!txt){ alert('计划是空的'); return; }
+    try{ localStorage.setItem('sp_plan',JSON.stringify({date:new Date().toLocaleString('zh-CN',{hour12:false}),text:txt})); }catch(e){}
+    renderPlan();
+  };
+  function renderPlan(){
+    var el=$('planSaved'); var p=null;
+    try{ p=JSON.parse(localStorage.getItem('sp_plan')||'null'); }catch(e){}
+    el.innerHTML=p?('<div class="note ok">📋 已保存下周计划（'+p.date+'）：<br>'+p.text.replace(/\n/g,'<br>')+'</div>'):'';
+  }
+  renderPlan();
+  renderMonths();
+  window.genEb();})();
 </script>
 </body>
 </html>
