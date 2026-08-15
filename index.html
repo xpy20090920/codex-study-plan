@@ -94,6 +94,7 @@ label{font-size:13px; color:var(--muted); display:block; margin-bottom:4px;}
 .pomo .btns{display:flex; gap:8px; justify-content:center;}
 .pomo .btns .btn{padding:6px 14px;}
 .pomo .stat{text-align:center; font-size:12px; color:var(--muted); margin-top:10px;}
+.pomo .dnd{font-size:11px; line-height:1.55; color:#7a4a00; background:rgba(255,224,130,.35); border:1px solid rgba(255,200,80,.55); border-radius:12px; padding:7px 9px; margin-top:10px; text-align:center; transition:opacity .3s;}
 .pomo.collapsed .body{display:none;}
 footer{background:linear-gradient(180deg,rgba(16,72,124,.9),rgba(11,61,107,.96)); color:#c9dcef; padding:30px 0 60px; margin-top:40px; font-size:13px; border-top:1px solid rgba(255,255,255,.3); box-shadow:0 -8px 30px rgba(23,60,110,.14);}
 footer a{color:#9ec9f2;}
@@ -472,7 +473,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
   </div>
 
   <div class="card">
-    <h3>15 天滚动复习表（打卡自动保存到本机浏览器）</h3>
+    <h3>每日复习打卡表 <span class="tag">一天一行 · 打卡自动保存</span></h3>
     <div class="form-row">
       <div><label>开始日期（第 1 天）</label><input type="date" id="ebStart"></div>
       <div><label>每天新学数量（个/组）</label><input type="number" id="ebGroup" value="30" min="1" max="200"></div>
@@ -483,7 +484,8 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
         <tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th></tr>
       </table>
     </div>
-    <div class="note" id="ebHint">📌 使用方法：每天学完新内容勾"新学"；按表中"今天要复习"的组号自测，测完勾"复习"。勾选状态自动保存在本机，刷新不丢。15 天后再重复一轮，或把开始日期往后推 15 天继续。</div>
+    <div id="ebStats" class="kb" style="margin:10px 0 6px; font-size:15px; text-align:center"></div>
+    <div class="note" id="ebHint">📌 使用方法：表里只显示<b>今天一行</b>——学完新内容勾"新学"，按"今天要复习"的组号自测，测完勾"复习"。勾选自动保存在本机，刷新不丢；连续打卡断一天，火焰就灭了。15 天一轮结束后，把开始日期往后推 15 天开始第二轮。</div>
   </div>
 </div></section><section id="mindset"><div class="wrap">
   <h2>五、心态调整 <span class="tag">针对"没动力"：3 条可执行建议</span></h2>
@@ -684,6 +686,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       <button class="btn sm" id="pomoStart" onclick="pomoToggle()">开始</button>
       <button class="btn sm" onclick="pomoReset()" style="background:#eee;color:#333">重置</button>
     </div>
+    <div class="dnd" id="pomoDnd">📵 开始前先把手机开成「勿扰/专注模式」，25 分钟不被打扰</div>
     <div class="stat" id="pomoStat">本日完成 0 个番茄</div>
   </div>
 </div><script>
@@ -710,11 +713,11 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
   if(subBox)subBox.addEventListener('input',function(){filterSubjects(subBox.value);});
 
 
-  /* ========== 番茄钟 ========== */
-  var pomo={work:25*60,brk:5*60,left:25*60,mode:'work',timer:null,running:false,done:0};
-  var todayKey='sp_pomo_'+new Date().toISOString().slice(0,10);
-  try{pomo.done=parseInt(localStorage.getItem(todayKey)||'0',10)||0;}catch(e){}
-  var pomoEl=$('pomo'),timeEl=$('pomoTime'),modeEl=$('pomoMode'),statEl=$('pomoStat'),startBtn=$('pomoStart');
+  /* ========== 番茄钟（时间戳计时：离开页面/锁屏也照走） ========== */
+  var pomo={work:25*60,brk:5*60,left:25*60,mode:'work',timer:null,running:false,endAt:null,done:0};
+  function pomoTodayKey(){return 'sp_pomo_'+new Date().toISOString().slice(0,10);}
+  try{pomo.done=parseInt(localStorage.getItem(pomoTodayKey())||'0',10)||0;}catch(e){}
+  var pomoEl=$('pomo'),timeEl=$('pomoTime'),modeEl=$('pomoMode'),statEl=$('pomoStat'),startBtn=$('pomoStart'),dndEl=$('pomoDnd');
   function fmt2(n){return (n<10?'0':'')+n;}
   function fmt(s){return fmt2(Math.floor(s/60))+':'+fmt2(s%60);}
   function beep(){
@@ -728,40 +731,76 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       o.start();o.stop(ctx.currentTime+0.6);
     }catch(e){}
   }
+  function pomoLeftSec(){return pomo.endAt?Math.max(0,(pomo.endAt-Date.now())/1000):pomo.left;}
+  function savePomo(){
+    try{
+      localStorage.setItem('sp_pomo_endAt',pomo.endAt?String(pomo.endAt):'');
+      localStorage.setItem('sp_pomo_mode',pomo.mode);
+      localStorage.setItem('sp_pomo_left',String(Math.max(1,pomo.left)));
+      localStorage.setItem('sp_pomo_run',pomo.running?'1':'0');
+    }catch(e){}
+  }
   function renderPomo(){
-    timeEl.textContent=fmt(pomo.left);
+    timeEl.textContent=fmt(Math.ceil(pomoLeftSec()));
     modeEl.textContent=(pomo.mode==='work'?'专注时间 · 25 分钟':'休息时间 · 5 分钟');
     startBtn.textContent=pomo.running?'暂停':'开始';
     statEl.textContent='本日完成 '+pomo.done+' 个番茄';
+    if(dndEl)dndEl.style.opacity=pomo.running?'1':'0.5';
+  }
+  function pomoComplete(){
+    beep();
+    if(pomo.mode==='work'){pomo.done++;try{localStorage.setItem(pomoTodayKey(),String(pomo.done));}catch(e){}}
+    pomo.mode=(pomo.mode==='work')?'brk':'work';
+    pomo.left=(pomo.mode==='work')?pomo.work:pomo.brk;
+    pomo.running=false;pomo.endAt=null;
+    clearInterval(pomo.timer);pomo.timer=null;
+    savePomo();
+    renderPomo();
+    setTimeout(beep,700);
+  }
+  function pomoTick(){
+    if(pomo.running&&pomo.endAt&&pomo.endAt<=Date.now()){pomoComplete();return;}
+    renderPomo();
   }
   window.pomoToggle=function(){
-    if(pomo.running){clearInterval(pomo.timer);pomo.running=false;}
-    else{
+    if(pomo.running){
+      pomo.left=Math.max(1,Math.round(pomoLeftSec()));
+      pomo.running=false;pomo.endAt=null;
+      clearInterval(pomo.timer);pomo.timer=null;
+    }else{
+      pomo.endAt=Date.now()+pomo.left*1000;
       pomo.running=true;
-      pomo.timer=setInterval(function(){
-        pomo.left--;
-        if(pomo.left<=0){
-          beep();
-          if(pomo.mode==='work'){pomo.done++;try{localStorage.setItem(todayKey,String(pomo.done));}catch(e){}}
-          pomo.mode=(pomo.mode==='work')?'brk':'work';
-          pomo.left=(pomo.mode==='work')?25*60:5*60;
-          pomo.running=false;clearInterval(pomo.timer);
-          setTimeout(beep,700);
-        }
-        renderPomo();
-      },1000);
+      if(!pomo.timer)pomo.timer=setInterval(pomoTick,500);
     }
+    savePomo();
     renderPomo();
   };
   window.pomoReset=function(){
-    clearInterval(pomo.timer);pomo.running=false;
-    pomo.left=(pomo.mode==='work')?25*60:5*60;
+    clearInterval(pomo.timer);pomo.timer=null;
+    pomo.running=false;pomo.endAt=null;
+    pomo.left=(pomo.mode==='work')?pomo.work:pomo.brk;
+    savePomo();
     renderPomo();
   };
   window.togglePomo=function(){
     pomoEl.classList.toggle('collapsed');
     $('pomoArrow').textContent=pomoEl.classList.contains('collapsed')?'▸':'▾';
   };
+  (function(){
+    try{
+      var pe=parseInt(localStorage.getItem('sp_pomo_endAt')||'',10);
+      var pm=localStorage.getItem('sp_pomo_mode');
+      var pl=parseInt(localStorage.getItem('sp_pomo_left')||'',10);
+      var pr=localStorage.getItem('sp_pomo_run')==='1';
+      if(pm==='work'||pm==='brk')pomo.mode=pm;
+      if(!isNaN(pl)&&pl>0)pomo.left=pl;
+      if(pr&&!isNaN(pe)){
+        if(pe>Date.now()){pomo.endAt=pe;pomo.running=true;pomo.timer=setInterval(pomoTick,500);}
+        else{pomo.endAt=pe;pomoComplete();}
+      }
+    }catch(e){}
+  })();
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)pomoTick();});
   renderPomo();
   /* ========== 艾宾浩斯复习表 ========== */
   var ebStart=$('ebStart'),ebGroup=$('ebGroup'),ebTable=$('ebTable'),todayCard=$('todayTask'),todayProg=$('todayProgress');
@@ -789,18 +828,21 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
     var start=parseDate(ebStart.value);
     if(!start){alert('请选择开始日期');return;}
     var gs=parseInt(ebGroup.value,10)||30;
-    var rows='<tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th></tr>';
     var today=new Date();today.setHours(0,0,0,0);
-    for(var i=0;i<15;i++){
-      var dt=new Date(start);dt.setDate(start.getDate()+i);
+    var off=dayOffset(start,today);
+    var rows='<tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th></tr>';
+    if(off<0){
+      rows+='<tr><td colspan="6" class="kb">还没到开始日期（'+fmtDate(start)+'），今天先准备第 1 组内容。</td></tr>';
+    }else if(off>14){
+      rows+='<tr><td colspan="6" class="kb">本轮 15 天已结束 🎉 把开始日期往后推 15 天，开始第二轮。</td></tr>';
+    }else{
+      var dt=new Date(start);dt.setDate(start.getDate()+off);
       var ds=fmtDate(dt);
-      var group='第 '+(i+1)+' 组（'+gs+' 个）';
-      var revs=[1,2,4,7,15].map(function(o){return i+1-o;}).filter(function(n){return n>=1;});
+      var revs=[1,2,4,7,15].map(function(o){return off+1-o;}).filter(function(n){return n>=1;});
       var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'—';
       var newCk='<input type="checkbox" data-date="'+ds+'" data-type="new" '+(isEbDone(ds,'new')?'checked':'')+'>';
       var revCk='<input type="checkbox" data-date="'+ds+'" data-type="rev" '+(isEbDone(ds,'rev')?'checked':'')+'>';
-      var cls=(dayOffset(today,dt)===0)?' style="background:#fff7dd"':'';
-      rows+='<tr'+cls+'><td>'+ds+'（'+chineseDay(dt)+'）</td><td>'+(i+1)+'</td><td>'+group+'</td><td>'+revTxt+'</td><td>'+newCk+'</td><td>'+revCk+'</td></tr>';
+      rows+='<tr style="background:#fff7dd"><td>'+ds+'（'+chineseDay(dt)+'）</td><td>'+(off+1)+'</td><td>第 '+(off+1)+' 组（'+gs+' 个）</td><td>'+revTxt+'</td><td>'+newCk+'</td><td>'+revCk+'</td></tr>';
     }
     ebTable.innerHTML=rows;
     var boxes=ebTable.querySelectorAll('input[type=checkbox]');
@@ -811,15 +853,45 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       });
     }
     updateToday();
-    ebTable.scrollIntoView({behavior:'smooth',block:'nearest'});
   };
+  function ebStats(){
+    var dates={};
+    try{
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i);
+        if(k&&k.indexOf('sp_eb_')===0&&localStorage.getItem(k)==='1'){
+          var ds=k.split('_')[2];
+          if(ds&&/^\d{4}-\d{2}-\d{2}$/.test(ds))dates[ds]=1;
+        }
+      }
+    }catch(e){}
+    var keys=Object.keys(dates);
+    var d=new Date();d.setHours(0,0,0,0);
+    if(!dates[fmtDate(d)]){
+      keys.sort();
+      d=keys.length?parseDate(keys[keys.length-1]):null;
+    }
+    var streak=0;
+    while(d&&dates[fmtDate(d)]){
+      streak++;
+      d=new Date(d.getFullYear(),d.getMonth(),d.getDate()-1);
+    }
+    return {total:keys.length,streak:streak};
+  }
+  function updateEbStats(){
+    var el=$('ebStats');
+    if(!el)return;
+    var s=ebStats();
+    var tip=s.streak>0?'，继续勾，别让火焰断掉！':'，今天勾一次就能点燃火焰 🔥';
+    el.innerHTML='📅 共打卡 <b>'+s.total+'</b> 天 · 🔥 连续打卡 <b>'+s.streak+'</b> 天'+tip;
+  }
   function updateToday(){
     var start=parseDate(ebStart.value);
-    if(!start){todayCard.textContent='请先设置开始日期。';return;}
+    if(!start){todayCard.textContent='请先设置开始日期。';updateEbStats();return;}
     var today=new Date();today.setHours(0,0,0,0);
     var off=dayOffset(start,today);
-    if(off<0){todayCard.textContent='还没到开始日期，先准备第一组内容。';todayProg.textContent='';return;}
-    if(off>14){todayCard.textContent='本轮 15 天已结束：把开始日期往后推 15 天开始第二轮，或进入下一阶段。';todayProg.textContent='';return;}
+    if(off<0){todayCard.textContent='还没到开始日期（'+fmtDate(start)+'），今天先准备第 1 组内容。';todayProg.textContent='';updateEbStats();return;}
+    if(off>14){todayCard.textContent='本轮 15 天已结束：把开始日期往后推 15 天，开始第二轮。';todayProg.textContent='';updateEbStats();return;}
     var gs=parseInt(ebGroup.value,10)||30;
     var revs=[1,2,4,7,15].map(function(o){return off+1-o;}).filter(function(n){return n>=1;});
     var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'没有要复习的旧内容';
@@ -835,6 +907,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
     var rateN=totalN?Math.round(doneN/totalN*100):0;
     var rateR=totalR?Math.round(doneR/totalR*100):0;
     todayProg.innerHTML='打卡：新学 '+doneN+'/'+totalN+'（'+rateN+'%）· 复习 '+doneR+'/'+totalR+'（'+rateR+'%）<br><b>本周（近 7 天）打卡率 ≥ 80% 才看成绩。</b>';
+    updateEbStats();
   }  window.copyTmpl=function(btn){
     var t=btn.parentNode.parentNode.querySelector('.t-text');
     var txt=t?t.textContent:'';
