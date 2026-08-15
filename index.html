@@ -520,7 +520,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       </table>
     </div>
     <div id="ebStats" class="kb" style="margin:10px 0 6px; font-size:15px; text-align:center"></div>
-    <div class="note" id="ebHint">📌 使用方法：表里只显示<b>今天一行</b>——学完新内容勾"新学"，按"今天要复习"的组号自测，测完勾"复习"。勾选自动保存在本机，刷新不丢；连续打卡断一天，火焰就灭了。15 天一轮结束后，把开始日期往后推 15 天开始第二轮。</div>
+    <div class="note" id="ebHint">📌 使用方法：表里只显示<b>今天一行</b>——学完新内容勾"新学"，按"今天要复习"的组号自测，测完勾"复习"。勾选自动保存在本机，刷新不丢；连续打卡断一天，火焰就灭了。15 天一轮结束后，点表格里的「一键开始第二轮」按钮，日期会自动推后 15 天。</div>
   </div>
 </div></section><section id="mindset"><div class="wrap">
   <h2>五、心态调整 <span class="tag">针对"没动力"：3 条可执行建议</span></h2>
@@ -910,7 +910,16 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
   renderPomo();
   /* ========== 艾宾浩斯复习表 ========== */
   var ebStart=$('ebStart'),ebGroup=$('ebGroup'),ebTable=$('ebTable'),todayCard=$('todayTask'),todayProg=$('todayProgress');
-  if(!ebStart.value){var d=new Date();d.setHours(0,0,0,0);ebStart.value=d.getFullYear()+'-'+fmt2(d.getMonth()+1)+'-'+fmt2(d.getDate());}
+  (function(){
+    var savedStart=null,savedGroup=null;
+    try{savedStart=localStorage.getItem('sp_eb_start');savedGroup=localStorage.getItem('sp_eb_group');}catch(e){}
+    if(savedStart&&/^\d{4}-\d{2}-\d{2}$/.test(savedStart))ebStart.value=savedStart;
+    if(!ebStart.value){var d=new Date();d.setHours(0,0,0,0);ebStart.value=d.getFullYear()+'-'+fmt2(d.getMonth()+1)+'-'+fmt2(d.getDate());}
+    if(parseInt(savedGroup,10)>0)ebGroup.value=savedGroup;
+    try{localStorage.setItem('sp_eb_start',ebStart.value);localStorage.setItem('sp_eb_group',ebGroup.value);}catch(e){}
+  })();
+  ebStart.addEventListener('change',function(){try{localStorage.setItem('sp_eb_start',ebStart.value);}catch(e){}genEb();});
+  ebGroup.addEventListener('change',function(){try{localStorage.setItem('sp_eb_group',ebGroup.value);}catch(e){}genEb();});
   function ebKey(date,type){return 'sp_eb_'+date+'_'+type;}
   function dayOffset(from,to){
     var a=new Date(from.getFullYear(),from.getMonth(),from.getDate()).getTime();
@@ -940,7 +949,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
     if(off<0){
       rows+='<tr><td colspan="6" class="kb">还没到开始日期（'+fmtDate(start)+'），今天先准备第 1 组内容。</td></tr>';
     }else if(off>14){
-      rows+='<tr><td colspan="6" class="kb">本轮 15 天已结束 🎉 把开始日期往后推 15 天，开始第二轮。</td></tr>';
+      rows+='<tr><td colspan="6" class="kb">本轮 15 天已结束 🎉 <button class="btn sm" onclick="ebNextRound()">一键开始第二轮（日期自动推后 15 天）</button></td></tr>';
     }else{
       var dt=new Date(start);dt.setDate(start.getDate()+off);
       var ds=fmtDate(dt);
@@ -959,6 +968,14 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       });
     }
     updateToday();
+  };
+  window.ebNextRound=function(){
+    var start=parseDate(ebStart.value);
+    if(!start){alert('请先设置开始日期');return;}
+    var d=new Date(start);d.setDate(d.getDate()+15);
+    ebStart.value=fmtDate(d);
+    try{localStorage.setItem('sp_eb_start',ebStart.value);}catch(e){}
+    genEb();
   };
   function ebStats(){
     var dates={};
@@ -997,7 +1014,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
     var today=new Date();today.setHours(0,0,0,0);
     var off=dayOffset(start,today);
     if(off<0){todayCard.textContent='还没到开始日期（'+fmtDate(start)+'），今天先准备第 1 组内容。';todayProg.textContent='';updateEbStats();return;}
-    if(off>14){todayCard.textContent='本轮 15 天已结束：把开始日期往后推 15 天，开始第二轮。';todayProg.textContent='';updateEbStats();return;}
+    if(off>14){todayCard.textContent='本轮 15 天已结束：点表格里的「一键开始第二轮」按钮，自动进入下一轮。';todayProg.textContent='';updateEbStats();return;}
     var gs=parseInt(ebGroup.value,10)||30;
     var revs=[1,2,4,7,15].map(function(o){return off+1-o;}).filter(function(n){return n>=1;});
     var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'没有要复习的旧内容';
