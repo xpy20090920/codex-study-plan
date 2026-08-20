@@ -520,7 +520,7 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       </table>
     </div>
     <div id="ebStats" class="kb" style="margin:10px 0 6px; font-size:15px; text-align:center"></div>
-    <div class="note" id="ebHint">📌 使用方法：表里只显示<b>今天一行</b>——学完新内容勾"新学"，按"今天要复习"的组号自测，测完勾"复习"。勾选自动保存在本机，刷新不丢；连续打卡断一天，火焰就灭了。15 天一轮结束后，点表格里的「一键开始第二轮」按钮，日期会自动推后 15 天。</div>
+    <div class="note" id="ebHint">📌 使用方法：表里只显示<b>今天一行</b>——学完新内容勾"新学"，按"今天要复习"的组号自测，测完勾"复习"。勾选自动保存在本机，刷新不丢；连续打卡断一天，火焰就灭了。复习/自测时想不起来的词，把个数填进「✗ 想不起来」列——明天会优先带它们来复习，想不起来的越来越少就说明真记住了。15 天一轮结束后，点表格里的「一键开始第二轮」按钮，日期会自动推后 15 天。</div>
   </div>
 </div></section><section id="mindset"><div class="wrap">
   <h2>五、心态调整 <span class="tag">针对"没动力"：3 条可执行建议</span></h2>
@@ -939,13 +939,16 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
   function isEbDone(date,type){
     try{return localStorage.getItem(ebKey(date,type))==='1';}catch(e){return false;}
   }
+  function isEbWeak(date){
+    try{return parseInt(localStorage.getItem(ebKey(date,'weak'))||'0',10)||0;}catch(e){return 0;}
+  }
   window.genEb=function(){
     var start=parseDate(ebStart.value);
     if(!start){alert('请选择开始日期');return;}
     var gs=parseInt(ebGroup.value,10)||30;
     var today=new Date();today.setHours(0,0,0,0);
     var off=dayOffset(start,today);
-    var rows='<tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th></tr>';
+    var rows='<tr><th>日期</th><th>第几天</th><th>新学内容</th><th>今天要复习（艾宾浩斯节点）</th><th>新学打卡</th><th>复习打卡</th><th>✗ 想不起来（个）</th></tr>';
     if(off<0){
       rows+='<tr><td colspan="6" class="kb">还没到开始日期（'+fmtDate(start)+'），今天先准备第 1 组内容。</td></tr>';
     }else if(off>14){
@@ -955,15 +958,28 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
       var ds=fmtDate(dt);
       var revs=[1,2,4,7,15].map(function(o){return off+1-o;}).filter(function(n){return n>=1;});
       var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'—';
+      var y=new Date(today);y.setDate(today.getDate()-1);
+      var yw=isEbWeak(fmtDate(y));
+      if(yw>0)revTxt='昨天 ✗ '+yw+' 个，先复习它们 → '+revTxt;
       var newCk='<input type="checkbox" data-date="'+ds+'" data-type="new" '+(isEbDone(ds,'new')?'checked':'')+'>';
       var revCk='<input type="checkbox" data-date="'+ds+'" data-type="rev" '+(isEbDone(ds,'rev')?'checked':'')+'>';
-      rows+='<tr style="background:#fff7dd"><td>'+ds+'（'+chineseDay(dt)+'）</td><td>'+(off+1)+'</td><td>第 '+(off+1)+' 组（'+gs+' 个）</td><td>'+revTxt+'</td><td>'+newCk+'</td><td>'+revCk+'</td></tr>';
+      var wk='<input type="number" min="0" max="200" style="width:56px" data-date="'+ds+'" data-type="weak" value="'+isEbWeak(ds)+'" title="今天复习/自测时想不起来的词数，明天优先复习">';
+      rows+='<tr style="background:#fff7dd"><td>'+ds+'（'+chineseDay(dt)+'）</td><td>'+(off+1)+'</td><td>第 '+(off+1)+' 组（'+gs+' 个）</td><td>'+revTxt+'</td><td>'+newCk+'</td><td>'+revCk+'</td><td>'+wk+'</td></tr>';
     }
     ebTable.innerHTML=rows;
     var boxes=ebTable.querySelectorAll('input[type=checkbox]');
     for(var j=0;j<boxes.length;j++){
       boxes[j].addEventListener('change',function(){
         try{localStorage.setItem(ebKey(this.getAttribute('data-date'),this.getAttribute('data-type')),this.checked?'1':'0');}catch(e){}
+        updateToday();
+      });
+    }
+    var weaks=ebTable.querySelectorAll('input[data-type=weak]');
+    for(var k=0;k<weaks.length;k++){
+      weaks[k].addEventListener('change',function(){
+        var v=parseInt(this.value,10);
+        if(isNaN(v)||v<0)v=0;
+        try{localStorage.setItem(ebKey(this.getAttribute('data-date'),'weak'),String(v));}catch(e){}
         updateToday();
       });
     }
@@ -1018,7 +1034,10 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
     var gs=parseInt(ebGroup.value,10)||30;
     var revs=[1,2,4,7,15].map(function(o){return off+1-o;}).filter(function(n){return n>=1;});
     var revTxt=revs.length?revs.map(function(n){return '第 '+n+' 组';}).join('、'):'没有要复习的旧内容';
-    todayCard.innerHTML='<b>第 '+(off+1)+' 天（'+fmtDate(today)+'）</b><br>📖 新学：第 '+(off+1)+' 组（'+gs+' 个）<br>🔁 复习：'+revTxt+'<br>🌙 睡前 12h 节点：闭眼过一遍今天学的，想不起来的明早补。';
+    var y=new Date(today);y.setDate(today.getDate()-1);
+    var yw=isEbWeak(fmtDate(y));
+    var revLine=yw>0?'先复习昨天 ✗ 的 '+yw+' 个 → '+revTxt:revTxt;
+    todayCard.innerHTML='<b>第 '+(off+1)+' 天（'+fmtDate(today)+'）</b><br>📖 新学：第 '+(off+1)+' 组（'+gs+' 个）<br>🔁 复习：'+revLine+'<br>🌙 睡前 12h 节点：闭眼过一遍今天学的，想不起来的明早补。';
     var doneN=0,doneR=0,totalN=0,totalR=0;
     for(var i=0;i<=off;i++){
       var dt=new Date(start);dt.setDate(start.getDate()+i);
@@ -1030,6 +1049,8 @@ html{-webkit-tap-highlight-color:transparent; touch-action:manipulation;}
     var rateN=totalN?Math.round(doneN/totalN*100):0;
     var rateR=totalR?Math.round(doneR/totalR*100):0;
     todayProg.innerHTML='打卡：新学 '+doneN+'/'+totalN+'（'+rateN+'%）· 复习 '+doneR+'/'+totalR+'（'+rateR+'%）<br><b>本周（近 7 天）打卡率 ≥ 80% 才看成绩。</b>';
+    var tw=isEbWeak(fmtDate(today));
+    if(tw>0)todayProg.innerHTML+='<br>✗ 今天想不起来 '+tw+' 个：明天打开时先复习它们，再学新的。';
     updateEbStats();
   }  window.copyTmpl=function(btn){
     var t=btn.parentNode.parentNode.querySelector('.t-text');
